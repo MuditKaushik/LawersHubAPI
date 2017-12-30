@@ -1,0 +1,13 @@
+{
+    "port": 1802,
+    "dbconfig": {
+        "user": "Mudit_Kaushik",
+        "password": "test123",
+        "server": "DESKTOP-IHL6SBQ",
+        "database": "PracticeDB"
+    },
+    "jwt": {
+        "secretKey": "k@u$h!k",
+        "publicKey": "k@u$h!k"
+    }
+}
