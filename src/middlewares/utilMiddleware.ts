@@ -1,4 +1,4 @@
-import { Application, NextFunction, Request, Response, Router } from 'express';
+import { Application, NextFunction, Request, Response } from 'express';
 
 export class UtilMiddlewares {
     constructor() { }

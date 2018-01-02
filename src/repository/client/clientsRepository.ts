@@ -1,5 +1,5 @@
 import { Observable, Observer } from '@reactivex/rxjs';
-import { ConnectionPool, IResult, Promise } from 'mssql';
+import { ConnectionPool, IResult } from 'mssql';
 import { Connect } from '../db_context';
 
 export class ClientsRepository extends Connect {
@@ -7,7 +7,9 @@ export class ClientsRepository extends Connect {
         super();
     }
     getPrivateClients(): Observable<IResult<any>> {
-        let queryPromise = this._db.query`SELECT * FROM PrimaryUser`;
-        return Observable.fromPromise(queryPromise);
+        return Observable.create((observer: Observer<IResult<any>>) => {
+            this.connect_DB().subscribe((connection: ConnectionPool) => {
+            });
+        });
     }
 }

@@ -12,6 +12,7 @@ export class ClientFacade extends ClientsRepository implements IClientFacade {
             this.getPrivateClients().subscribe((result) => {
                 observer.next(result);
             }, (err) => {
+                // log error;
                 observer.error(err);
             }, () => {
                 observer.complete();

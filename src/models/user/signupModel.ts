@@ -1,5 +1,5 @@
 export interface ISignupModel {
-    id: number;
+    UserId: number;
     firstName: string;
     middleName: string;
     lastName: string;

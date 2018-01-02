@@ -7,11 +7,11 @@ import { RouteConfig } from './route.config';
 export class RunServer extends UtilMiddlewares {
     static _instance: RunServer;
     server: express.Application;
-
     constructor() {
         super();
         this.server = express();
-        this.middleware();
+        this.server.use(express.urlencoded({ extended: true }));
+        bodyParser.json();
         this.enable_cors(this.server);
         this.map_routes();
         this.run();
@@ -24,16 +24,10 @@ export class RunServer extends UtilMiddlewares {
         return this._instance;
     }
 
-    middleware(): void {
-        bodyParser.json();
-        bodyParser.urlencoded({ extended: true });
-    }
-
     map_routes(): void {
         let routeConfig = new RouteConfig();
-        this.server.use('/api.lawyerhub.com/v1/account/', routeConfig.accountAPI());
-        // this.server.use('/api/v1/authuser', );
-        // this.server.use('/api/v1/authaccount', );
+        this.server.use('/api/v1/account', routeConfig.accountAPI());
+        this.server.use('/api/v1/authuser', routeConfig.authUserAPI());
     }
 
     run(): void {
