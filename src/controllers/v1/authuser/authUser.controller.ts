@@ -6,7 +6,7 @@ import { UserManager } from '../../../repository/facade/facades';
 export class AuthUserController extends AuthMiddlewares {
     constructor(route: Router) {
         super();
-        route.get('/users', this.getAuthUsersList.bind(this));
+        route.get('/clients/:userId', this.validateToken, this.getAuthUsersList.bind(this));
     }
     getAuthUsersList(req: Request, res: Response) {
         UserManager.getAllUserFacade().subscribe((result) => {

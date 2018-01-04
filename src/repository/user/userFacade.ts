@@ -8,11 +8,10 @@ export class UserFacade extends UserRepository implements IUserFacade {
     constructor() {
         super();
     }
-    getUserFacade(login: ILoginModel): Observable<ISignupModel> {
-        return Observable.create((observer: Observer<ISignupModel>) => {
-            this.getUser(login.username, login.password).subscribe((result: IResult<ISignupModel>) => {
-                let response = result.recordset[0] as ISignupModel;
-                observer.next(response);
+    getUserFacade(login: ILoginModel): Observable<any> {
+        return Observable.create((observer: Observer<any>) => {
+            this.getUser(login.username, login.password).subscribe((result: IResult<any>) => {
+                observer.next(result.recordset[0]);
             }, (err: any) => {
                 observer.error(err);
             }, () => {

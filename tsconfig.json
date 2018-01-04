@@ -38,13 +38,15 @@
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     "typeRoots": [
       "@types",
-      "@reactivex/rxjs/src"
+      "@reactivex/rxjs/dist/package/observable/",
+      "@reactivex/rxjs/dist/package/observable/dom/"
     ], /* List of folders to include type definitions from. */
     "types": [
       "body-parser",
       "config",
+      "core-js",
       "express",
-      "node"
+      "node",
     ], /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */

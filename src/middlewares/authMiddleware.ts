@@ -11,15 +11,25 @@ export class AuthMiddlewares {
         this.tokenConfig = config.get<any>('jwt');
     }
     protected validateToken(req: Request, res: Response, next: NextFunction): void {
-        let bearerToken = req.headers.Authorization as string;
+        let bearerToken = req.headers['authorization'] as string;
+        let tokenConfig = config.get<any>('jwt');
+        let userId = req.params.userId;
         if (bearerToken !== undefined) {
             let splitBearerToken = bearerToken.split(' ');
             if (splitBearerToken[1] !== undefined) {
-                this.decodeAccessToken(splitBearerToken[1]).subscribe((decode: IIdentityModel) => {
-                    if (!decode || !decode.UserId || !decode.userName || !decode.email || !decode.isActive) {
-                        return res.sendStatus(httpStatus.UNAUTHORIZED);
+                verify(splitBearerToken[1], tokenConfig.secretKey as string, (err, decode) => {
+                    if (!err) {
+                        let identity = decode as IIdentityModel;
+                        if (!identity || !identity.UserId || !identity.userName
+                            || !identity.email || !identity.isActive ||
+                            (identity.UserId !== userId)) {
+                            return res.sendStatus(httpStatus.UNAUTHORIZED).send('Invaild user access.');
+                        } else {
+                            next();
+                        }
+                    } else {
+                        return res.sendStatus(httpStatus.UNAUTHORIZED).send(err.message);
                     }
-                    next();
                 });
             } else {
                 next(httpStatus.UNAUTHORIZED);
@@ -29,12 +39,12 @@ export class AuthMiddlewares {
             res.sendStatus(httpStatus.FORBIDDEN);
         }
     }
-    protected generateAccessToken(user: ISignupModel): Observable<IIdentityModel> {
+    protected generateAccessToken(user: any): Observable<IIdentityModel> {
         let userIdentity: IIdentityModel = {} as IIdentityModel;
         userIdentity.UserId = user.UserId;
-        userIdentity.email = user.email;
-        userIdentity.userName = user.email;
-        userIdentity.fullName = `${user.firstName} ${user.middleName} ${user.lastName}`;
+        userIdentity.email = user.PrimaryEmail;
+        userIdentity.userName = user.PrimaryEmail;
+        userIdentity.fullName = `${user.FirstName} ${user.MiddleName} ${user.LastName}`;
         userIdentity.isActive = true;
 
         return Observable.create((observer: Observer<IIdentityModel>) => {
@@ -49,7 +59,7 @@ export class AuthMiddlewares {
             });
         });
     }
-    private decodeAccessToken(token: string): Observable<IIdentityModel> {
+    protected decodeAccessToken(token: string): Observable<IIdentityModel> {
         return Observable.create((observer: Observer<IIdentityModel>) => {
             verify(token, this.tokenConfig.secretKey as string, (err: JsonWebTokenError, decode: string | object) => {
                 if (!err) {

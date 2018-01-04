@@ -10,8 +10,8 @@ export class RunServer extends UtilMiddlewares {
     constructor() {
         super();
         this.server = express();
-        this.server.use(express.urlencoded({ extended: true }));
-        bodyParser.json();
+        this.server.use(bodyParser.urlencoded({ extended: true }));
+        this.server.use(bodyParser.json());
         this.enable_cors(this.server);
         this.map_routes();
         this.run();

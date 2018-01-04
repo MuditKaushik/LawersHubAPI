@@ -15,12 +15,12 @@ export class AccountController extends AuthMiddlewares {
         UserManager.getUserFacade(req.body as ILoginModel).subscribe((result) => {
             if (result) {
                 this.generateAccessToken(result).subscribe((identity) => {
-                    return res.status(httpStatus.OK).json(identity);
+                    return res.status(httpStatus.OK).send(identity);
                 }, (err) => {
-                    return res.status(httpStatus.FORBIDDEN).json(err);
+                    return res.status(httpStatus.FORBIDDEN).send();
                 });
             } else {
-                return res.status(httpStatus.OK).json(httpStatus.NOT_FOUND);
+                return res.status(httpStatus.OK).send();
             }
         });
     }

@@ -27,9 +27,7 @@
         "no-empty-interface": false,
         "no-for-in-array": false,
         "no-duplicate-imports": true,
-        "no-string-literal": {
-            "severity": "warning"
-        },
+        "no-string-literal": false,
         "ordered-imports": true,
         "quotemark": {
             "options": [
