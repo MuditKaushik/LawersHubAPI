@@ -1,0 +1,13 @@
+{
+    "port": ,
+    "dbconfig": {
+        "user": "",
+        "password": "",
+        "server": "",
+        "database": ""
+    },
+    "jwt": {
+        "secretKey": "",
+        "publicKey": ""
+    }
+}
