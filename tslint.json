@@ -21,7 +21,10 @@
         "interface-name": true,
         "max-line-length": true,
         "member-access": false,
-        "member-ordering": true,
+        "member-ordering": {
+            "options": true,
+            "severity": "warning"
+        },
         "no-console": false,
         "no-empty": false,
         "no-empty-interface": false,

@@ -1,6 +1,7 @@
 import { Observable } from '@reactivex/rxjs';
-import {IResult} from 'mssql';
+import { IResult } from 'mssql';
+import { IUserClient } from '../../models/v1_models';
 
 export interface IClientFacade {
-    getClientsListFacade(): Observable<IResult<any>>;
+    getClientsListFacade(userid: string, isprivate?: boolean): Observable<Array<IUserClient>>;
 }

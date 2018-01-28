@@ -4,7 +4,7 @@
         "user": "Mudit_Kaushik",
         "password": "test123",
         "server": "DESKTOP-IHL6SBQ",
-        "database": "PracticeDB"
+        "database": "lawyershub_db"
     },
     "jwt": {
         "secretKey": "k@u$h!k",

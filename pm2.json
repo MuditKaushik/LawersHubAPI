@@ -3,7 +3,7 @@
         {
             "name": "lawyerhub_api",
             "script": "./api/server/run.js",
-            "watch": true,
+            "watch": false,
             "instances": 1,
             "env": {
                 "NODE_ENV": "development"

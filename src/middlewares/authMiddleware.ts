@@ -3,7 +3,7 @@ import * as config from 'config';
 import { Application, NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { JsonWebTokenError, sign, SignOptions, verify } from 'jsonwebtoken';
-import { IIdentityModel, ISignupModel } from '../models/v1_models';
+import { IIdentityModel, ISignupModel, IAuthUser } from '../models/v1_models';
 
 export class AuthMiddlewares {
     tokenConfig: any;
@@ -11,7 +11,7 @@ export class AuthMiddlewares {
         this.tokenConfig = config.get<any>('jwt');
     }
     protected validateToken(req: Request, res: Response, next: NextFunction): void {
-        let bearerToken = req.headers['authorization'] as string;
+        let bearerToken = (!req.header('auth')) ? <string>req.header('authorization') : <string>req.header('auth');
         let tokenConfig = config.get<any>('jwt');
         let userId = req.params.userId;
         if (bearerToken !== undefined) {
@@ -20,9 +20,9 @@ export class AuthMiddlewares {
                 verify(splitBearerToken[1], tokenConfig.secretKey as string, (err, decode) => {
                     if (!err) {
                         let identity = decode as IIdentityModel;
-                        if (!identity || !identity.UserId || !identity.userName
+                        if (!identity || !identity.userid || !identity.userName
                             || !identity.email || !identity.isActive ||
-                            (identity.UserId !== userId)) {
+                            (identity.userid !== userId)) {
                             return res.sendStatus(httpStatus.UNAUTHORIZED).send('Invaild user access.');
                         } else {
                             next();
@@ -39,12 +39,12 @@ export class AuthMiddlewares {
             res.sendStatus(httpStatus.FORBIDDEN);
         }
     }
-    protected generateAccessToken(user: any): Observable<IIdentityModel> {
+    protected generateAccessToken(user: IAuthUser): Observable<IIdentityModel> {
         let userIdentity: IIdentityModel = {} as IIdentityModel;
-        userIdentity.UserId = user.UserId;
-        userIdentity.email = user.PrimaryEmail;
-        userIdentity.userName = user.PrimaryEmail;
-        userIdentity.fullName = `${user.FirstName} ${user.MiddleName} ${user.LastName}`;
+        userIdentity.userid = user.userid;
+        userIdentity.email = user.email;
+        userIdentity.userName = user.username;
+        userIdentity.fullName = `${user.firstName} ${user.middleName} ${user.lastName}`;
         userIdentity.isActive = true;
 
         return Observable.create((observer: Observer<IIdentityModel>) => {

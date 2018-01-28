@@ -3,5 +3,6 @@ import { ILoginModel, ISignupModel } from '../../models/v1_models';
 
 export interface IUserFacade {
     getUserFacade(login: ILoginModel): Observable<any>;
-    getAllUserFacade(): Observable<Array<ISignupModel>>;
+    getAllUserFacade(userid: string): Observable<Array<ISignupModel>>;
+    addUserFacade(signup: ISignupModel): Observable<number>;
 }

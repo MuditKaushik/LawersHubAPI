@@ -1,5 +1,5 @@
 export interface IIdentityModel {
-    UserId: string;
+    userid: string;
     fullName: string;
     userName: string;
     email: string;
