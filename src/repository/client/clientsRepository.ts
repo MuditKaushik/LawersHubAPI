@@ -1,5 +1,5 @@
 import { Observable, Observer } from '@reactivex/rxjs';
-import { ConnectionPool, IResult, Request, TYPES, IProcedureResult } from 'mssql';
+import { ConnectionPool, IResult, Request, TYPES, IProcedureResult, ConnectionError } from 'mssql';
 import { Connect } from '../db_context';
 import { IUserClient } from '../../models/v1_models';
 
@@ -7,18 +7,34 @@ export class ClientsRepository extends Connect {
     constructor() {
         super();
     }
-    getClients(userid: string, isPrivate?: boolean): Observable<IResult<any>> {
+    getClients(userid: string, isPrivate: boolean): Observable<IResult<any>> {
         return Observable.create((observer: Observer<IResult<any>>) => {
             this.connect_DB().subscribe((connection: ConnectionPool) => {
                 let procedure = new Request(connection)
                     .input('userid', TYPES.NVarChar, userid)
-                    .input('clientType', TYPES.Bit, (isPrivate !== null) ? isPrivate : true)
+                    .input('clientType', TYPES.Bit, isPrivate)
                     .execute('sp_getclients');
                 Observable.fromPromise(procedure).subscribe((result: IProcedureResult<any>) => {
                     observer.next(result);
                 }, (err: any) => {
                     observer.error(err);
                 }, () => {
+                    connection.close();
+                    observer.complete();
+                });
+            });
+        });
+    }
+    getAllClients(userid: string): Observable<IResult<any>> {
+        return Observable.create((observer: Observer<IResult<any>>) => {
+            this.connect_DB().subscribe((connection: ConnectionPool) => {
+                let request = new Request(connection)
+                    .query(`SELECT * FROM [dbo].user_client as [client] WHERE [client].userid = '${userid}'`);
+                Observable.fromPromise(request).subscribe((result: IResult<any>) => {
+                    observer.next(result);
+                }, (err: ConnectionError) => { 
+                    observer.error(err.message);
+                },()=>{
                     connection.close();
                     observer.complete();
                 });
@@ -42,7 +58,6 @@ export class ClientsRepository extends Connect {
                     .input('purpose', TYPES.Int, client.purpose)
                     .input('isprivate', TYPES.Bit, client.isprivate)
                     .input('about', TYPES.NVarChar, client.about)
-                    .input('created', TYPES.NVarChar, client.userid)
                     .execute('sp_addClient');
                 Observable.fromPromise(procedure).subscribe((result: IProcedureResult<any>) => {
                     observer.next(result);

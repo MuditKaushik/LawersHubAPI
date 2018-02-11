@@ -6,11 +6,15 @@ export interface IUserClient {
     lastName: string;
     address1: string;
     address2: string;
-    country: string;
+    country:string;
     state: string;
     district: string;
     city: string;
-    purpose: string;
-    isprivate: boolean;
+    pincode: string;
+    email: string;
+    phone: string;
+    purpose: number;
+    occupation: string;
     about: string;
+    isprivate: boolean;
 }

@@ -13,7 +13,8 @@ CREATE TABLE auth_user
     updated DATETIME NOT NULL,
     CONSTRAINT pk_authuser_userid PRIMARY KEY (userid)
 );
-CREATE TABLE user_client(
+CREATE TABLE user_client
+(
     clientid NVARCHAR(50) NOT NULL,
     userid NVARCHAR(50) NOT NULL,
     firstName NVARCHAR(20) NOT NULL,
@@ -25,6 +26,7 @@ CREATE TABLE user_client(
     state NVARCHAR(20) NOT NULL,
     district NVARCHAR(40) NOT NULL,
     city NVARCHAR(40) NOT NULL,
+    email NVARCHAR(40) NULL,
     purpose INTEGER NOT NULL,
     isprivate BIT NOT NULL,
     about NVARCHAR(max) NULL,

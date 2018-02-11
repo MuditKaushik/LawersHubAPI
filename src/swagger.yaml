@@ -1,0 +1,52 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Lawyer's Hub
+  description: Hub where lawyer and client meets.
+  
+host: localhost:1802
+basePath: /api
+
+schemes:
+  - http
+paths:
+  /common/getstates:
+    get:
+      summary: Return states. 
+      description: Return all country states.
+      operationId: getstates
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+  /common/getcountry:
+    get:
+      summary: Return countries.
+      description: return all country list as JSON
+      operationId: getcountry
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+  /common/getcities/{state}:
+    get:
+      summary: reutrn cities.
+      operationId: getcities.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: state
+          required: true
+          type: string
+          description: require state as input parameter.
+      responses:
+        200:
+          description: Cities array.
+          schema:
+            type: object
+  

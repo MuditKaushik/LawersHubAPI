@@ -1,6 +1,7 @@
 import { Observable } from "@reactivex/rxjs";
 
 export interface ICommonFacade {
-    getStatesAndCities(): Observable<any>;
+    getStates(): Observable<Array<string>>;
+    getCities(state: string): Observable<Array<string>>;
     getCountries(): Observable<any>;
 }

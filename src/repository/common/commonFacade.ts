@@ -7,14 +7,11 @@ export class CommonFacade implements ICommonFacade {
     constructor() {
         this.commonRepo = new CommonRepository();
     }
-    getStatesAndCities(): Observable<any> {
-        return Observable.create((observer: Observer<any>) => {
-            this.commonRepo.getStatesAndCities().subscribe((result: any) => {
-                observer.next(result.country);
-            }, (err: any) => {
-                observer.error(err);
-            });
-        });
+    getStates(): Observable<Array<string>> {
+        return this.commonRepo.getStates();
+    }
+    getCities(state: string): Observable<Array<string>> {
+        return this.commonRepo.getCities(state);
     }
     getCountries(): Observable<any> {
         return Observable.create((observer: Observer<any>) => {

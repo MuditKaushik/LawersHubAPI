@@ -3,5 +3,6 @@ import { IResult } from 'mssql';
 import { IUserClient } from '../../models/v1_models';
 
 export interface IClientFacade {
-    getClientsListFacade(userid: string, isprivate?: boolean): Observable<Array<IUserClient>>;
+    getClientsListFacade(userid: string, isprivate: boolean): Observable<Array<IUserClient>>;
+    addClientFacade(client: IUserClient, userid: string): Observable<boolean>;
 }

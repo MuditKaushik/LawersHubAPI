@@ -40,8 +40,8 @@ BEGIN
     SELECT *
     FROM [dbo].auth_user as authuser
     WHERE [authuser].username LIKE @username
-    AND [authuser].email LIKE @email
-    AND [authuser].phone LIKE @phone)
+        AND [authuser].email LIKE @email
+        AND [authuser].phone LIKE @phone)
     BEGIN
         SET @isExist = 1;
     END
@@ -78,15 +78,12 @@ CREATE PROCEDURE sp_addClient
     @city NVARCHAR(40),
     @purpose INTEGER,
     @isprivate BIT,
-    @about NVARCHAR(max),
-    @created NVARCHAR(50)
+    @about NVARCHAR(max)
 AS
-DECLARE @clientid NVARCHAR(50)
-SET @clientid = NEWID()
 BEGIN
     INSERT INTO [dbo].user_client
     VALUES(
-            @clientid,
+            NEWID(),
             @userid,
             @firstName,
             @middleName,
@@ -100,10 +97,9 @@ BEGIN
             @purpose,
             @isprivate,
             @about,
-            @userid,
+            SYSDATETIME(),
             SYSDATETIME()
     );
-    RETURN @clientid;
 END;
 
 GO
