@@ -1,10 +1,10 @@
 import { Request, Response, Router } from 'express';
+import { readFileSync } from 'fs';
 import * as httpStatus from 'http-status-codes';
+import { error } from 'util';
 import { AuthMiddlewares } from '../../../middlewares/authMiddleware';
 import { IIdentityModel, ILoginModel, ISignupModel } from '../../../models/v1_models';
-import { UserManager, CommonManager } from '../../../repository/facade/facades';
-import { error } from 'util';
-import { readFileSync } from 'fs';
+import { CommonManager, UserManager } from '../../../repository/facade/facades';
 
 export class AccountController extends AuthMiddlewares {
     constructor(route: Router) {
@@ -30,9 +30,9 @@ export class AccountController extends AuthMiddlewares {
         return res.status(httpStatus.OK).send('reset password link has been sent your registered email address.');
     }
     signup(req: Request, res: Response) {
-        UserManager.addUserFacade(req.body as ISignupModel).subscribe((result) => { 
+        UserManager.addUserFacade(req.body as ISignupModel).subscribe((result) => {
             return res.status(httpStatus.OK).send(httpStatus.CREATED);
-        },(err)=>{
+        }, (err) => {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('unable to create');
         });
     }

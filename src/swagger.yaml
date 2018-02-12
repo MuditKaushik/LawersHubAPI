@@ -15,6 +15,8 @@ paths:
       summary: Return states. 
       description: Return all country states.
       operationId: getstates
+      tags:
+        - Common API
       produces:
         - application/json
       responses:
@@ -25,6 +27,8 @@ paths:
       summary: Return countries.
       description: return all country list as JSON
       operationId: getcountry
+      tags:
+        - Common API
       produces:
         - application/json
       responses:
@@ -34,6 +38,8 @@ paths:
     get:
       summary: reutrn cities.
       operationId: getcities.
+      tags:
+        - Common API
       consumes:
         - application/json
       produces:
@@ -49,4 +55,226 @@ paths:
           description: Cities array.
           schema:
             type: object
+
+  /v1/login:
+    post:
+      summary: user can login.
+      operationId: login
+      description: User can pass credentials and got token and user identity.
+      tags:
+        - Account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: username
+          type: string
+          required: true
+          description: Username is required.
+        - in: formData
+          name: password
+          type: string
+          required: true
+          description: Password is required.
+      responses:
+        200:
+          description: OK.
+        404:
+          description: Not Found.
+        403:
+          description: Forbidden Request.
+  /v1/signup:
+    post:
+      summary: New user can signup.
+      operationId: signup
+      description: new user can signup giving his/her following information.
+      tags:
+        - Account
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: firstName
+          type: string
+          required: true
+          description: First Name
+        - in: formData
+          name: middelName
+          type: string
+          required: false
+          description: Middle Name
+        - in: formData
+          name: lastName
+          type: string
+          required: true
+          description: Last Name
+        - in: formData
+          name: phone
+          type: string
+          required: true
+          description: Phone
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: Email Address
+        - in: formData
+          name: username
+          type: string
+          required: true
+          description: Username
+        - in: formData
+          name: password
+          type: string
+          required: true
+          description: Password
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not Created.
+  /v1/forgotpassword/{email}:
+    get:
+      summary: password reset link.
+      operationId: forgotpassword
+      description: User will get password reset link on its register email address.
+      tags:
+        - Account
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: email
+          type: string
+          required: true
+          description: Email Address.
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad request.
   
+  /v1/getClientList/{userId}/{isPrivate}:
+    get:
+      summary: Fetch registred user's client.
+      description: Fetch registred user's client by userid and client type.
+      operationId: getClientList
+      tags:
+        - Auth User
+      parameters:
+        - in: path
+          name: userId
+          type: string
+          required: true
+          description: userid
+        - in: path
+          name: isPrivate
+          type: boolean
+          required: false
+          description: Is client private.
+      responses:
+        200:
+          description: OK
+        404:
+          description: No client.
+  /v1/addClient:
+    post:
+      summary: User can add clients.
+      description: user can add client, providing following details.
+      operationId: addClient
+      tags:
+        - Auth User
+      parameters:
+        - in: formData
+          name: userid
+          type: string
+          required: true
+          description: userid
+        - in: formData
+          name: firstName
+          type: string
+          required: true
+          description: First name
+        - in: formdata
+          name: middleName
+          type: string
+          required: false
+          description: Middle name
+        - in: formdata
+          name: lastName
+          type: string
+          required: true
+          description: Last Name
+        - in: formData
+          name: address1
+          type: string
+          required: true
+          description: Address
+        - in: formData
+          name: address2
+          type: string
+          required: false
+          description: Address
+        - in: formData
+          name: country
+          type: string
+          required: true
+          description: Country
+        - in: formData
+          name: state
+          type: string
+          required: true
+          description: State
+        - in: formData
+          name: district
+          type: string
+          required: true
+          description: District
+        - in: formData
+          name: city
+          type: string
+          required: true
+          description: City
+        - in: formdata
+          name: pincode
+          type: string
+          required: true
+          description: Pincode
+        - in: formData
+          name: email
+          type: string
+          required: true
+          description: Email Address
+        - in: formdata
+          name: phone
+          type: string
+          required: true
+          description: Phone
+        - in: formData
+          name: purpose
+          type: integer
+          required: true
+          description: Purpose
+        - in: formdata
+          name: occupation
+          type: string
+          required: true
+          description: Occupation
+        - in: formData
+          name: about
+          type: string
+          required: true
+          description: About
+        - in: formData
+          name: isprivate
+          type: boolean
+          required: true
+          description: Client type
+      responses:
+        200:
+          description: OK
+    

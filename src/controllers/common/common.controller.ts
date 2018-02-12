@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { CommonManager } from '../../repository/facade/facades';
 

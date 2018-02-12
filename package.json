@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"node ./api/server/run.js\" \"tsc -w\"",
-    "tslint": "./node_modules/.bin/tslint --init"
+    "start": "tsc && concurrently \"gulp\" \"node ./api/server/run.js\" \"tsc -w\"",
+    "tslint": "./node_modules/.bin/tslint --init",
+    "build": "tsc && concurrently \"tsc gulpfile.ts\"",
+    "swagger": "concurrently \"gulp watcher\" \"swagger project edit\""
   },
   "repository": {
     "type": "git",

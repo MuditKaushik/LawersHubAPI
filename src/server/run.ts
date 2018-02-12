@@ -3,7 +3,6 @@ import * as config from 'config';
 import * as express from 'express';
 import { UtilMiddlewares } from '../middlewares/utilMiddleware';
 import { RouteConfig } from './route.config';
-const swaggerUi = require('swagger-ui-express');
 
 export class RunServer extends UtilMiddlewares {
     static _instance: RunServer;
@@ -15,6 +14,7 @@ export class RunServer extends UtilMiddlewares {
         this.server.use(bodyParser.json());
         this.enable_cors(this.server);
         this.map_routes();
+        // this.swagger_init();
         this.run();
     }
 
@@ -26,11 +26,15 @@ export class RunServer extends UtilMiddlewares {
     }
 
     map_routes(): void {
+
         let routeConfig = new RouteConfig();
-        this.server.use('/api/common',routeConfig.commonAPI());
+        this.server.use('', routeConfig.setup_Swagger(this.server));
+        this.server.use('/api/common', routeConfig.commonAPI());
         this.server.use('/api/v1/account', routeConfig.accountAPI());
         this.server.use('/api/v1/authuser', routeConfig.authUserAPI());
-        this.server.use('/api-docs', swaggerUi.server, swaggerUi.setup(`${process.cwd()}/api/swagger/swagger.json`));
+    }
+
+    swagger_init(): void {
     }
 
     run(): void {

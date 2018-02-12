@@ -1,5 +1,7 @@
 /.vscode
 /api
+/dist
 /node_modules
 /.idea
 /config/development.json
+/gulpfile.js

@@ -14,6 +14,7 @@
         },
         "class-name": false,
         "cyclomatic-complexity": true,
+        "comment-format": false,
         "eofline": true,
         "forin": true,
         "import-spacing": true,
@@ -32,6 +33,7 @@
         "no-duplicate-imports": true,
         "no-string-literal": false,
         "ordered-imports": true,
+        "no-var-requires": false,
         "quotemark": {
             "options": [
                 "single"
