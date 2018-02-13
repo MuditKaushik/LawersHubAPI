@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as gulp from 'gulp';
 import * as jsYaml from 'js-yaml';
 import * as path from 'path';
+import * as runSequence from 'run-sequence';
 
 let swaggerSrcpath = './src/swagger.yaml';
 let swaggerDestpath = './api/swagger';
@@ -24,9 +25,12 @@ function CreateSwaggerJson() {
 gulp.task('gen-swagger-file', GenerateSwaggerFile);
 gulp.task('swagger-json', CreateSwaggerJson);
 gulp.task('swagger-backup', CreateSwaggerBackup);
+
 gulp.task('watcher', () => {
-    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerBackup);
     gulp.watch(swaggerFile, { queue: true }, CreateSwaggerJson);
+    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerBackup);  
 });
 
-gulp.task('default', ['gen-swagger-file', 'swagger-json', 'watcher'], () => { });
+gulp.task('default', () => {
+    runSequence('gen-swagger-file', 'swagger-json', 'watcher');
+});
