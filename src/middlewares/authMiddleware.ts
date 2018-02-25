@@ -40,13 +40,14 @@ export class AuthMiddlewares {
         }
     }
     protected generateAccessToken(user: IAuthUser): Observable<IIdentityModel> {
-        let userIdentity: IIdentityModel = {} as IIdentityModel;
-        userIdentity.userid = user.userid;
-        userIdentity.email = user.email;
-        userIdentity.userName = user.username;
-        userIdentity.fullName = `${user.firstName} ${user.middleName} ${user.lastName}`;
-        userIdentity.isActive = true;
-
+        let userIdentity: IIdentityModel = {
+            userid: user.userid,
+            email: user.email,
+            userName: user.username,
+            fullName: `${user.firstName} ${user.middleName} ${user.lastName}`,
+            isActive: true,
+            access_token: ''
+        };
         return Observable.create((observer: Observer<IIdentityModel>) => {
             sign(userIdentity, this.tokenConfig.secretKey as string, (err: Error, token: string) => {
                 if (!err) {

@@ -7,49 +7,22 @@ CREATE PROCEDURE sp_addAuthuser
     @phone NVARCHAR(20),
     @email NVARCHAR(20),
     @username NVARCHAR(20),
-    @password NVARCHAR(20)
+    @password NVARCHAR(20),
+    @iscreated BIT OUTPUT
 AS
-DECLARE @userid NVARCHAR(50);
-SET @userid = NEWID()
+DECLARE @id NVARCHAR(50);
+SET @id = NEWID()
 BEGIN
-    INSERT INTO [dbo].auth_user
-    VALUES
-        (
-            @userid,
-            @firstname,
-            @middlename,
-            @lastname,
-            @phone,
-            @email,
-            @username,
-            @password,
-            SYSDATETIME()
-    );
-    RETURN @userid;
-END;
-
-GO
-CREATE PROCEDURE sp_userExist
-    @username NVARCHAR(20),
-    @email NVARCHAR(20),
-    @phone NVARCHAR(20)
-AS
-DECLARE @isExist BIT;
-BEGIN
-    IF EXISTS(
-    SELECT *
-    FROM [dbo].auth_user as authuser
-    WHERE [authuser].username LIKE @username
-        AND [authuser].email LIKE @email
-        AND [authuser].phone LIKE @phone)
+    IF NOT EXISTS(SELECT *
+    FROM dbo.Fn_getUser(@username,@email,@phone))
     BEGIN
-        SET @isExist = 1;
+        INSERT INTO [dbo].auth_user
+        VALUES
+            (@id, @firstname, @middlename, @lastname, @phone, @email, @username, @password, SYSUTCDATETIME());
+        SET @iscreated = 1;
     END
     ELSE
-    BEGIN
-        SET @isExist = 0;
-    END;
-    RETURN @isExist;
+    SET @iscreated = 0
 END;
 
 GO
@@ -76,30 +49,19 @@ CREATE PROCEDURE sp_addClient
     @state NVARCHAR(20),
     @district NVARCHAR(40),
     @city NVARCHAR(40),
+    @email NVARCHAR(40),
     @purpose INTEGER,
     @isprivate BIT,
-    @about NVARCHAR(max)
+    @about NVARCHAR(max),
+    @created BIT OUTPUT
 AS
 BEGIN
     INSERT INTO [dbo].user_client
-    VALUES(
-            NEWID(),
-            @userid,
-            @firstName,
-            @middleName,
-            @lastName,
-            @address1,
-            @address2,
-            @country,
-            @state,
-            @district,
-            @city,
-            @purpose,
-            @isprivate,
-            @about,
-            SYSDATETIME(),
-            SYSDATETIME()
-    );
+    VALUES(NEWID(), @userid, @firstName, @middleName, @lastName,
+            @address1, @address2, @country, @state, @district,
+            @city, @email, @purpose, @isprivate, @about,
+            SYSUTCDATETIME(), SYSUTCDATETIME());
+    SET @created = 1;
 END;
 
 GO
@@ -117,9 +79,10 @@ CREATE PROCEDURE sp_updateClient
     @purpose INTEGER,
     @isprivate BIT,
     @about NVARCHAR(max),
-    @updated DATETIME
+    @updated DATETIME,
+    @isupdated BIT OUTPUT
+
 AS
-DECLARE @isupdated BIT
 BEGIN
     UPDATE [dbo].user_client
     SET 
@@ -138,7 +101,6 @@ BEGIN
     updated = SYSDATETIME()
     WHERE clientid = @clientid;
     SET @isupdated = 1;
-    RETURN @isupdated;
 END;
 
 GO

@@ -41,8 +41,8 @@ export class UserRepository extends Connect {
             });
         });
     }
-    adduser(addUser: ISignupModel): Observable<number> {
-        return Observable.create((observer: Observer<number>) => {
+    adduser(addUser: ISignupModel): Observable<IResult<any>> {
+        return Observable.create((observer: Observer<IResult<any>>) => {
             this.connect_DB().subscribe((connection: ConnectionPool) => {
                 let procedure = new Request(connection)
                     .input('firstname', TYPES.NVarChar, addUser.firstName)
@@ -52,15 +52,16 @@ export class UserRepository extends Connect {
                     .input('email', TYPES.NVarChar, addUser.email)
                     .input('username', TYPES.NVarChar, addUser.username)
                     .input('password', TYPES.NVarChar, addUser.password)
-                    .execute('sp_addAuthuser');
-                Observable.fromPromise(procedure).subscribe((result: IProcedureResult<any>) => {
-                    observer.next(result.returnValue);
-                }, (err: any) => {
-                    observer.error(err);
-                }, () => {
-                    connection.close();
-                    observer.complete();
-                });
+                    .output('iscreated', TYPES.Bit)
+                    .execute('sp_addAuthuser', (err: any, record: IProcedureResult<any>, value: any) => {
+                        if (err) {
+                            observer.error(err);
+                        } else {
+                            observer.next(record);
+                        }
+                        connection.close();
+                        observer.complete();
+                    });
             });
         });
     }

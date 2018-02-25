@@ -6,7 +6,6 @@ info:
   
 host: localhost:1802
 basePath: /api
-
 schemes:
   - http
 paths:
@@ -127,24 +126,55 @@ paths:
         400:
           description: Bad request.
   
-  /v1/getClientList/{userId}/{isPrivate}:
+  /v1/getAllClients/{userId}:
     get:
-    
+      summary: return all clients.
+      description: return all the clients private and public as JSON.
+      operationId: getAllClients
+      tags:
+        - Auth User
+      produces:
+        - appication/json
+      parameters:
+        - in: header
+          name: authorization
+          type: string
+          required: true
+          description: authorization token.
+        - in: path
+          name: userId
+          type: string
+          required: true
+          description: userid
+      responses:
+        200:
+          definition: OK
+        404:
+          definition: No client.
+        401:
+          defination: unauthorize request.
+  /v1/getClientList/{userId}/{isprivate}:
+    get:
       summary: Fetch registred user's client.
       description: Fetch registred user's client by userid and client type.
       operationId: getClientList
       tags:
         - Auth User
       parameters:
+        - in: header
+          name: authorization
+          type: string
+          required: true
+          description: bearer token.
         - in: path
           name: userId
           type: string
           required: true
           description: userid
         - in: path
-          name: isPrivate
+          name: isprivate
           type: boolean
-          required: false
+          required: true
           description: Is client private.
       responses:
         200:
@@ -159,6 +189,11 @@ paths:
       tags:
         - Auth User
       parameters:
+        - in: header
+          name: authorization
+          type: string
+          required: true
+          description: bearer token
         - in: body
           name: addClient
           definition: add new client

@@ -30,10 +30,10 @@ export class UserFacade extends UserRepository implements IUserFacade {
             });
         });
     }
-    addUserFacade(signup: ISignupModel): Observable<number> {
-        return Observable.create((observer: Observer<number>) => {
-            this.adduser(signup).subscribe((result) => {
-                observer.next(result);
+    addUserFacade(signup: ISignupModel): Observable<boolean> {
+        return Observable.create((observer: Observer<boolean>) => {
+            this.adduser(signup).subscribe((result: IResult<any>) => {
+                observer.next(result.output.iscreated);
             }, (err: any) => {
                 observer.error(err);
             }, () => {

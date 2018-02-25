@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import * as httpStatus from 'http-status-codes';
 import { error } from 'util';
 import { AuthMiddlewares } from '../../../middlewares/authMiddleware';
-import { IIdentityModel, ILoginModel, ISignupModel } from '../../../models/v1_models';
+import { IIdentityModel, ILoginModel, ISignupModel, IResponseBody } from '../../../models/v1_models';
 import { CommonManager, UserManager } from '../../../repository/facade/facades';
 
 export class AccountController extends AuthMiddlewares {
@@ -16,9 +16,11 @@ export class AccountController extends AuthMiddlewares {
     login(req: Request, res: Response) {
         UserManager.getUserFacade(req.body as ILoginModel).subscribe((result) => {
             if (result) {
-                this.generateAccessToken(result).subscribe((identity) => {
-                    return res.status(httpStatus.OK).send(identity);
+                this.generateAccessToken(result).subscribe((identity: IIdentityModel) => {
+                    let response: IResponseBody<IIdentityModel> = { completed: true, result: identity };
+                    return res.status(httpStatus.OK).send(response);
                 }, (err) => {
+                    let response: IResponseBody<string> = { completed: false, result: '' };
                     return res.status(httpStatus.FORBIDDEN).send();
                 });
             } else {
@@ -31,7 +33,8 @@ export class AccountController extends AuthMiddlewares {
     }
     signup(req: Request, res: Response) {
         UserManager.addUserFacade(req.body as ISignupModel).subscribe((result) => {
-            return res.status(httpStatus.OK).send(httpStatus.CREATED);
+            let responseBody: IResponseBody<boolean> = { completed: true, result: result };
+            return res.status(httpStatus.OK).send(responseBody);
         }, (err) => {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('unable to create');
         });

@@ -7,7 +7,7 @@ import { IUserClient } from '../../../models/v1_models';
 export class AuthUserController extends AuthMiddlewares {
     constructor(route: Router) {
         super();
-        route.get('/getclients/:userId/:isPrivate?', this.validateToken, this.getClientList.bind(this));
+        route.get('/getclients/:userId/:isprivate', this.validateToken, this.getClientList.bind(this));
         route.post('/addclient/:userId', this.validateToken, this.addClient.bind(this));
     }
     getClientList(req: Request, res: Response) {
