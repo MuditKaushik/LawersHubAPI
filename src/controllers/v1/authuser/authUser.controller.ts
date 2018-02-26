@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { AuthMiddlewares } from '../../../middlewares/authMiddleware';
 import { ClientManager } from '../../../repository/facade/facades';
-import { IUserClient } from '../../../models/v1_models';
+import { IUserClient, IResponseBody } from '../../../models/v1_models';
 
 export class AuthUserController extends AuthMiddlewares {
     constructor(route: Router) {
@@ -12,11 +12,11 @@ export class AuthUserController extends AuthMiddlewares {
     }
     getClientList(req: Request, res: Response) {
         ClientManager.getClientsListFacade(req.param('userId'), req.params.isPrivate as boolean)
-            .subscribe((result: Array<IUserClient>) => {
-                if (result.length > 0) {
+            .subscribe((result: IResponseBody<Array<IUserClient>>) => {
+                if (result.success) {
                     return res.status(httpStatus.OK).send(result);
                 } else {
-                    return res.status(httpStatus.OK).send(new Array<IUserClient>());
+                    return res.status(httpStatus.NOT_FOUND).send(result);
                 }
             }, (err) => {
                 return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(httpStatus.INTERNAL_SERVER_ERROR);

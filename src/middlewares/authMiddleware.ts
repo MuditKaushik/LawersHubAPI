@@ -3,7 +3,7 @@ import * as config from 'config';
 import { Application, NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { JsonWebTokenError, sign, SignOptions, verify } from 'jsonwebtoken';
-import { IIdentityModel, ISignupModel, IAuthUser } from '../models/v1_models';
+import { IIdentityModel, ISignupModel, IAuthUser, IResponseBody, SendResponse } from '../models/v1_models';
 
 export class AuthMiddlewares {
     tokenConfig: any;
@@ -39,20 +39,20 @@ export class AuthMiddlewares {
             res.sendStatus(httpStatus.FORBIDDEN);
         }
     }
-    protected generateAccessToken(user: IAuthUser): Observable<IIdentityModel> {
-        let userIdentity: IIdentityModel = {
-            userid: user.userid,
-            email: user.email,
-            userName: user.username,
-            fullName: `${user.firstName} ${user.middleName} ${user.lastName}`,
-            isActive: true,
-            access_token: ''
-        };
-        return Observable.create((observer: Observer<IIdentityModel>) => {
+    protected generateAccessToken(user: IAuthUser): Observable<IResponseBody<IIdentityModel>> {
+        return Observable.create((observer: Observer<IResponseBody<IIdentityModel>>) => {
+            let userIdentity: IIdentityModel = {
+                userid: user.userid,
+                email: user.email,
+                userName: user.username,
+                fullName: `${user.firstName} ${user.middleName} ${user.lastName}`,
+                isActive: true,
+                access_token: ''
+            };
             sign(userIdentity, this.tokenConfig.secretKey as string, (err: Error, token: string) => {
                 if (!err) {
                     userIdentity.access_token = token;
-                    observer.next(userIdentity);
+                    observer.next(SendResponse<IIdentityModel>(userIdentity, true));
                 } else {
                     observer.error(err);
                 }

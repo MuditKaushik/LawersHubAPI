@@ -13,15 +13,15 @@ export class ClientsRepository extends Connect {
                 let procedure = new Request(connection)
                     .input('userid', TYPES.NVarChar, userid)
                     .input('clientType', TYPES.Bit, isPrivate)
-                    .execute('sp_getclients');
-                Observable.fromPromise(procedure).subscribe((result: IProcedureResult<any>) => {
-                    observer.next(result);
-                }, (err: any) => {
-                    observer.error(err);
-                }, () => {
-                    connection.close();
-                    observer.complete();
-                });
+                    .execute('sp_getclients', (err: any, record: IProcedureResult<any>, value: any) => {
+                        if (!err) {
+                            observer.next(record);
+                        } else {
+                            observer.error(err);
+                        }
+                        connection.close();
+                        observer.complete();
+                    });
             });
         });
     }
@@ -32,9 +32,9 @@ export class ClientsRepository extends Connect {
                     .query(`SELECT * FROM [dbo].user_client as [client] WHERE [client].userid = '${userid}'`);
                 Observable.fromPromise(request).subscribe((result: IResult<any>) => {
                     observer.next(result);
-                }, (err: ConnectionError) => { 
+                }, (err: ConnectionError) => {
                     observer.error(err.message);
-                },()=>{
+                }, () => {
                     connection.close();
                     observer.complete();
                 });
@@ -58,15 +58,16 @@ export class ClientsRepository extends Connect {
                     .input('purpose', TYPES.Int, client.purpose)
                     .input('isprivate', TYPES.Bit, client.isprivate)
                     .input('about', TYPES.NVarChar, client.about)
-                    .execute('sp_addClient');
-                Observable.fromPromise(procedure).subscribe((result: IProcedureResult<any>) => {
-                    observer.next(result);
-                }, (err: any) => {
-                    observer.error(err);
-                }, () => {
-                    connection.close();
-                    observer.complete();
-                });
+                    .output('created', TYPES.Bit)
+                    .execute('sp_addClient', (err: any, record: IProcedureResult<any>, value: any) => {
+                        if (!err) {
+                            observer.next(record);
+                        } else {
+                            observer.error(err);
+                        }
+                        connection.close();
+                        observer.complete();
+                    });
             });
         });
     }
