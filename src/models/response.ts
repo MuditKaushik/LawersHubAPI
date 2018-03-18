@@ -1,5 +1,3 @@
-import { IRecordSet } from "mssql";
-
 export interface IResponseBody<T> {
     message?: string;
     success: boolean,
