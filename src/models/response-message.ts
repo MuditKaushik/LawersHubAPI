@@ -3,5 +3,6 @@ export enum ResponseMessage {
     ACCOUNT_EXISTS = 'Account already exists.',
     CREATED = 'Successfully created.',
     NOT_CREATED = 'Unable to create.',
-    NOT_FOUND = 'No record found.'
+    NOT_FOUND = 'No record found.',
+    UNAUTHORIZE_ACCESS = 'Unauthorize access barred.'
 }

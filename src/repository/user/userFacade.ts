@@ -10,12 +10,16 @@ export class UserFacade extends UserRepository implements IUserFacade {
     }
     getUserFacade(login: ILoginModel): Observable<IResponseBody<IAuthUser>> {
         return Observable.create((observer: Observer<IResponseBody<IAuthUser>>) => {
+            if (!login.username || !login.password) {
+                observer.next(SendResponse<IAuthUser>(null, false, ResponseMessage.UNAUTHORIZE_ACCESS));
+                observer.complete();
+            }
             this.getUser(login.username, login.password).subscribe((result: IResult<any>) => {
                 if (result.recordsets[0].length > 0) {
                     observer.next(SendResponse<IAuthUser>(result.recordsets[0], true));
                 }
                 else {
-                    observer.next(SendResponse<IAuthUser>({}, false, ResponseMessage.NO_USER));
+                    observer.next(SendResponse<IAuthUser>(null, false, ResponseMessage.NO_USER));
                 }
             }, (err: any) => {
                 observer.error(err);

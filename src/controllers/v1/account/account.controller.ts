@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import * as httpStatus from 'http-status-codes';
 import { error } from 'util';
 import { AuthMiddlewares } from '../../../middlewares/authMiddleware';
-import { IIdentityModel, ILoginModel, ISignupModel, IResponseBody, IAuthUser } from '../../../models/v1_models';
+import { IIdentityModel, ILoginModel, ISignupModel, IResponseBody, IAuthUser, SendResponse } from '../../../models/v1_models';
 import { CommonManager, UserManager } from '../../../repository/facade/facades';
 
 export class AccountController extends AuthMiddlewares {
