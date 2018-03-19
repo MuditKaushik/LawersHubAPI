@@ -33,10 +33,10 @@ export class AuthMiddlewares {
                 });
             } else {
                 next(httpStatus.UNAUTHORIZED);
-                res.sendStatus(httpStatus.FORBIDDEN);
+                res.sendStatus(httpStatus.UNAUTHORIZED);
             }
         } else {
-            res.sendStatus(httpStatus.FORBIDDEN);
+            res.sendStatus(httpStatus.UNAUTHORIZED);
         }
     }
     protected generateAccessToken(user: IAuthUser): Observable<IResponseBody<IIdentityModel>> {
@@ -51,7 +51,7 @@ export class AuthMiddlewares {
             };
             sign(userIdentity, this.tokenConfig.secretKey as string, (err: Error, token: string) => {
                 if (!err) {
-                    userIdentity.access_token = token;
+                    userIdentity.access_token = `bearer ${token}`;
                     observer.next(SendResponse<IIdentityModel>(userIdentity, true));
                 } else {
                     observer.error(err);

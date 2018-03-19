@@ -55,6 +55,7 @@ export class ClientsRepository extends Connect {
                     .input('state', TYPES.NVarChar, client.state)
                     .input('district', TYPES.NVarChar, client.district)
                     .input('city', TYPES.NVarChar, client.city)
+                    .input('email', TYPES.NVarChar, client.email)
                     .input('purpose', TYPES.Int, client.purpose)
                     .input('isprivate', TYPES.Bit, client.isprivate)
                     .input('about', TYPES.NVarChar, client.about)
@@ -68,6 +69,23 @@ export class ClientsRepository extends Connect {
                         connection.close();
                         observer.complete();
                     });
+            });
+        });
+    }
+    removeClient(clientId: string, userId: string): Observable<IResult<any>> {
+        return Observable.create((observer: Observer<IResult<any>>) => {
+            this.connect_DB().subscribe((connection: ConnectionPool) => {
+                let request = new Request(connection)
+                    .query(`DELETE FROM [dbo].user_client as client WHERE client.clientid = '${clientId}' AND client.userid='${userId}'`,
+                        (err: any, record: IResult<any>) => {
+                            if (!err) {
+                                observer.next(record);
+                            } else {
+                                observer.error(err);
+                            }
+                            connection.close();
+                            observer.complete();
+                        });
             });
         });
     }

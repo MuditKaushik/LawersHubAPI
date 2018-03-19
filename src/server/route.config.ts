@@ -1,9 +1,10 @@
 import { Application, Router } from 'express';
+import * as fs from 'fs';
 import * as path from 'path';
+import * as jsYaml from 'js-yaml';
 import { CommonController } from '../controllers/common/common.controller';
 import { AccountController, AuthUserController } from '../controllers/v1/v1_controllers';
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocs = require(path.join(__dirname, '../swagger/swagger.json'));
 
 export class RouteConfig {
     constructor() {
@@ -28,9 +29,11 @@ export class RouteConfig {
     //     this.server.use('/api/v1/authaccount', authAccountRoutes);
     //     return authAccountRoutes;
     // }
-    setup_Swagger(server: Application): Router {
+    setup_Swagger(): Router {
         let swaggerRoute = Router();
-        swaggerRoute.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+        const swaggerDocs = path.join(__dirname, '../swagger/swagger.yaml');
+        const swaggerYaml = jsYaml.safeLoad(fs.readFileSync(swaggerDocs, { encoding: 'utf8' }));
+        swaggerRoute.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml));
         return swaggerRoute;
     }
 }

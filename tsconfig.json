@@ -43,8 +43,11 @@
     ], /* List of folders to include type definitions from. */
     "types": [
       "body-parser",
+      "chai",
+      "chai-http",
       "config",
       "express",
+      "mocha",
       "node",
       "run-sequence"
     ], /* Type declaration files to be included in compilation. */

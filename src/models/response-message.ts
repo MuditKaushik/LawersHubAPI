@@ -4,5 +4,7 @@ export enum ResponseMessage {
     CREATED = 'Successfully created.',
     NOT_CREATED = 'Unable to create.',
     NOT_FOUND = 'No record found.',
-    UNAUTHORIZE_ACCESS = 'Unauthorize access barred.'
+    UNAUTHORIZE_ACCESS = 'Unauthorize access barred.',
+    NOT_DELETED = 'No record deleted.',
+    SERVER_ERROR = 'Server error, could not able to complete action.'
 }

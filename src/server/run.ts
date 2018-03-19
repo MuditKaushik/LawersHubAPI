@@ -14,7 +14,6 @@ export class RunServer extends UtilMiddlewares {
         this.server.use(bodyParser.json());
         this.enable_cors(this.server);
         this.map_routes();
-        // this.swagger_init();
         this.run();
     }
 
@@ -26,15 +25,11 @@ export class RunServer extends UtilMiddlewares {
     }
 
     map_routes(): void {
-
         let routeConfig = new RouteConfig();
-        this.server.use('', routeConfig.setup_Swagger(this.server));
+        this.server.use('', routeConfig.setup_Swagger());
         this.server.use('/api/common', routeConfig.commonAPI());
         this.server.use('/api/v1/account', routeConfig.accountAPI());
         this.server.use('/api/v1/authuser', routeConfig.authUserAPI());
-    }
-
-    swagger_init(): void {
     }
 
     run(): void {

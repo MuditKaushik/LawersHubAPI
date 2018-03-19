@@ -17,20 +17,14 @@ function GenerateSwaggerFile() {
 function CreateSwaggerBackup() {
     gulp.src(swaggerFile).pipe(gulp.dest('./src/'));
 }
-function CreateSwaggerJson() {
-    let genYaml = jsYaml.safeLoad(fs.readFileSync(swaggerFile, 'utf8'));
-    fs.writeFileSync(`${swaggerDestpath}/swagger.json`, JSON.stringify(genYaml, null, ' '));
-}
 
 gulp.task('gen-swagger-file', GenerateSwaggerFile);
-gulp.task('swagger-json', CreateSwaggerJson);
 gulp.task('swagger-backup', CreateSwaggerBackup);
 
 gulp.task('watcher', () => {
-    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerJson);
-    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerBackup);  
+    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerBackup);
 });
 
 gulp.task('default', () => {
-    runSequence('gen-swagger-file', 'swagger-json', 'watcher');
+    runSequence('gen-swagger-file', 'watcher');
 });

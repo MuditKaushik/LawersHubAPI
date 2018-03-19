@@ -8,6 +8,11 @@ host: localhost:1802
 basePath: /api
 schemes:
   - http
+securityDefinitions:
+  apiToken:
+    type: apiKey
+    in: header
+    name: authorization
 paths:
   /common/getstates:
     get:
@@ -55,7 +60,7 @@ paths:
           schema:
             type: object
 
-  /v1/login:
+  /v1/account/login:
     post:
       summary: user can login.
       operationId: login
@@ -63,7 +68,7 @@ paths:
       tags:
         - Account
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       parameters:
@@ -84,7 +89,7 @@ paths:
           description: Not Found.
         403:
           description: Forbidden Request.
-  /v1/signup:
+  /v1/account/signup:
     post:
       summary: New user can signup.
       operationId: signup
@@ -105,7 +110,7 @@ paths:
           description: OK
         404:
           description: Not Created.
-  /v1/forgotpassword/{email}:
+  /v1/account/forgotpassword/{email}:
     get:
       summary: password reset link.
       operationId: forgotpassword
@@ -126,46 +131,16 @@ paths:
         400:
           description: Bad request.
   
-  /v1/getAllClients/{userId}:
-    get:
-      summary: return all clients.
-      description: return all the clients private and public as JSON.
-      operationId: getAllClients
-      tags:
-        - Auth User
-      produces:
-        - appication/json
-      parameters:
-        - in: header
-          name: authorization
-          type: string
-          required: true
-          description: authorization token.
-        - in: path
-          name: userId
-          type: string
-          required: true
-          description: userid
-      responses:
-        200:
-          definition: OK
-        404:
-          definition: No client.
-        401:
-          defination: unauthorize request.
-  /v1/getClientList/{userId}/{isprivate}:
+  /v1/authuser/getClients/{userId}/{isprivate}:
     get:
       summary: Fetch registred user's client.
       description: Fetch registred user's client by userid and client type.
       operationId: getClientList
+      security:
+        - apiToken: []
       tags:
         - Auth User
       parameters:
-        - in: header
-          name: authorization
-          type: string
-          required: true
-          description: bearer token.
         - in: path
           name: userId
           type: string
@@ -174,26 +149,23 @@ paths:
         - in: path
           name: isprivate
           type: boolean
-          required: true
-          description: Is client private.
+          required: false
+          description: isprivate
       responses:
         200:
           description: OK
         404:
           description: No client.
-  /v1/addClient:
+  /v1/authuser/addClient:
     post:
       summary: User can add clients.
       description: user can add client, providing following details.
       operationId: addClient
+      security:
+        - apiToken: []
       tags:
         - Auth User
       parameters:
-        - in: header
-          name: authorization
-          type: string
-          required: true
-          description: bearer token
         - in: body
           name: addClient
           definition: add new client
