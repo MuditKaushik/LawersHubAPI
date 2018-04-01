@@ -9,7 +9,7 @@ export class AuthUserController extends AuthMiddlewares {
         super();
         route.get('/getclients/:userId/:isprivate?', this.validateToken, this.getClientList.bind(this));
         route.post('/addclient/:userId', this.validateToken, this.addClient.bind(this));
-        route.get('/removeclient/:clientid/:userid', this.removeClient.bind(this));
+        route.delete('/removeclient/:clientid/:userid', this.removeClient.bind(this));
     }
     getClientList(req: Request, res: Response) {
         ClientManager.getClientsListFacade(req.param('userId'), req.params.isprivate as boolean)

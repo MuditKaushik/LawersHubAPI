@@ -8,6 +8,7 @@ export class UtilMiddlewares extends AuthMiddlewares {
     enable_cors(server: Application): void {
         server.use((req: Request, res: Response, next: NextFunction) => {
             res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
             next();
         });

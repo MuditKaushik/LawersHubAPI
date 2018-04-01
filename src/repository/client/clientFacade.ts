@@ -13,8 +13,8 @@ export class ClientFacade extends ClientsRepository implements IClientFacade {
             this.getAllClients(userid) :
             this.getClients(userid, isprivate);
         return getClientObservable.map((result: IResult<any>) => {
-            if (result.recordset.length > 0) {
-                return SendResponse<Array<IUserClient>>(result.recordset[0], true);
+            if (result.recordsets[0].length > 0) {
+                return SendResponse<Array<IUserClient>>(result.recordsets[0], true);
             } else {
                 return SendResponse<Array<IUserClient>>([], false, ResponseMessage.NOT_FOUND);
             }
@@ -34,8 +34,8 @@ export class ClientFacade extends ClientsRepository implements IClientFacade {
     }
     removeClientFacade(clientId: string, userId: string): Observable<IResponseBody<boolean>> {
         return this.removeClient(clientId, userId).map((result: IResult<any>) => {
-            if (result.recordset.length > 0) {
-                return SendResponse<boolean>(result.recordset[0], true, '');
+            if (result.rowsAffected.length > 0) {
+                return SendResponse<boolean>(true, true, 'Deleted');
             }
             return SendResponse<boolean>(false, false, ResponseMessage.NOT_DELETED);
         });

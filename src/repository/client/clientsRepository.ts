@@ -76,7 +76,7 @@ export class ClientsRepository extends Connect {
         return Observable.create((observer: Observer<IResult<any>>) => {
             this.connect_DB().subscribe((connection: ConnectionPool) => {
                 let request = new Request(connection)
-                    .query(`DELETE FROM [dbo].user_client as client WHERE client.clientid = '${clientId}' AND client.userid='${userId}'`,
+                    .query(`DELETE FROM [dbo].user_client WHERE clientid = '${clientId}' AND userid='${userId}'`,
                         (err: any, record: IResult<any>) => {
                             if (!err) {
                                 observer.next(record);
