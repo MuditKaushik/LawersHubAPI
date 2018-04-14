@@ -3,23 +3,25 @@ exports.__esModule = true;
 var fs = require("fs");
 var gulp = require("gulp");
 var runSequence = require("run-sequence");
-var swaggerSrcpath = './src/swagger.yaml';
-var swaggerDestpath = './api/swagger';
-var swaggerFile = swaggerDestpath + "/swagger.yaml";
-function GenerateSwaggerFile() {
+var swaggerSrcpath = './api/swagger/**/*';
+var swaggerDestpath = './dist/swagger';
+function Swagger() {
     if (!fs.existsSync(swaggerDestpath)) {
         fs.mkdirSync(swaggerDestpath);
     }
     gulp.src(swaggerSrcpath).pipe(gulp.dest(swaggerDestpath + "/"));
 }
-function CreateSwaggerBackup() {
-    gulp.src(swaggerFile).pipe(gulp.dest('./src/'));
+function SwaggerChange() {
+    gulp.src(swaggerSrcpath).pipe(gulp.dest(swaggerDestpath + "/"));
 }
-gulp.task('gen-swagger-file', GenerateSwaggerFile);
-gulp.task('swagger-backup', CreateSwaggerBackup);
+gulp.task('swagger', Swagger);
+gulp.task('swaggerChange', SwaggerChange);
 gulp.task('watcher', function () {
-    gulp.watch(swaggerFile, { queue: true }, CreateSwaggerBackup);
+    gulp.watch(swaggerSrcpath, SwaggerChange);
+});
+gulp.task('build', function () {
+    runSequence(['swagger']);
 });
 gulp.task('default', function () {
-    runSequence('gen-swagger-file', 'watcher');
+    runSequence(['swagger', 'swaggerChange', 'watcher']);
 });

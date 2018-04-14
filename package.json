@@ -4,10 +4,10 @@
   "description": "lawyerhub app apis",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./api/specs/**/*.specs.js",
-    "start": "tsc && concurrently \"gulp\" \"node ./api/server/run.js\" \"npm test\" \"tsc -w\"",
+    "test": "mocha ./dist/specs/**/*.specs.js",
+    "start": "tsc && concurrently \"npm run build\"  \"gulp\" \"node ./dist/server/run.js\" \"npm test\" \"tsc -w\"",
     "tslint": "./node_modules/.bin/tslint --init",
-    "build": "tsc && concurrently \"tsc gulpfile.ts\""
+    "build": "concurrently \"tsc gulpfile.ts\" \"gulp build\""
   },
   "repository": {
     "type": "git",
