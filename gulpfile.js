@@ -3,8 +3,8 @@ exports.__esModule = true;
 var fs = require("fs");
 var gulp = require("gulp");
 var runSequence = require("run-sequence");
-var swaggerSrcpath = './api/swagger/**/*';
-var swaggerDestpath = './dist/swagger';
+var swaggerSrcpath = './api/swagger/swagger.yaml';
+var swaggerDestpath = './dist/swagger/';
 function Swagger() {
     if (!fs.existsSync(swaggerDestpath)) {
         fs.mkdirSync(swaggerDestpath);

@@ -1,9 +1,9 @@
 {
     "port": 1802,
     "dbconfig": {
-        "user": "Mudit_Kaushik",
+        "user": "sa",
         "password": "test123",
-        "server": "DESKTOP-IHL6SBQ",
+        "server": "DESKTOP-3U6O3C6",
         "database": "lawyershub_db"
     },
     "jwt": {

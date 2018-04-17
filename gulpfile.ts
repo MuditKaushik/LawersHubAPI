@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as gulp from 'gulp';
 import * as runSequence from 'run-sequence';
 
-let swaggerSrcpath = './api/swagger/**/*';
-let swaggerDestpath = './dist/swagger';
+let swaggerSrcpath = './api/swagger/swagger.yaml';
+let swaggerDestpath = './dist/swagger/';
 
 function Swagger() {
     if (!fs.existsSync(swaggerDestpath)) {
@@ -14,7 +14,6 @@ function Swagger() {
 function SwaggerChange() {
     gulp.src(swaggerSrcpath).pipe(gulp.dest(`${swaggerDestpath}/`));
 }
-
 gulp.task('swagger', Swagger);
 gulp.task('swaggerChange', SwaggerChange);
 gulp.task('watcher', () => {

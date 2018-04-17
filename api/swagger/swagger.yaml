@@ -1,0 +1,31 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: lawyer's Hub
+  description: find lawyers.
+  termsOfService: no terms.
+  contact:
+    name: Mudit Kaushik
+    url: https://www.linkedin.com/in/mudit-kaushik-62939a3a
+    email: mudit.mohan@powerschool.com
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+
+host: localhost:1802
+basePath: /api
+schemes:
+    - http
+paths:
+  /individual/login:
+    get:
+      summary: user login.
+      description: return token with user identity data.
+      tags:
+        - Individual
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+    

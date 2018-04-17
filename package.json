@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./dist/specs/**/*.specs.js",
-    "start": "tsc && concurrently \"npm run build\"  \"gulp\" \"node ./dist/server/run.js\" \"npm test\" \"tsc -w\"",
+    "start": "tsc && concurrently \"npm run build\" \"gulp\" \"node ./dist/server/run.js\" \"npm test\" \"tsc -w\"",
     "tslint": "./node_modules/.bin/tslint --init",
-    "build": "concurrently \"tsc gulpfile.ts\" \"gulp build\""
+    "build": "concurrently \"tsc gulpfile.ts\" \"gulp build\"",
+    "swagger":"concurrently \"swagger project edit\" \"gulp watcher\""
   },
   "repository": {
     "type": "git",
