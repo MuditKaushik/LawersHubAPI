@@ -47,6 +47,7 @@
       "chai-http",
       "config",
       "express",
+      "http-status-codes",
       "mocha",
       "node",
       "run-sequence"

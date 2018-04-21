@@ -29,7 +29,7 @@ export class Server {
     }
     initServer(): void {
         let port: number = config.get<number>('port');
-        this.app.listen(port,'localhost', () => {
+        this.app.listen(port, 'localhost', () => {
             console.log(`Application listing at port ${port}.`);
         });
     }

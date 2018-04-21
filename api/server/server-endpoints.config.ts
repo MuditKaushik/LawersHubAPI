@@ -30,8 +30,9 @@ export function ClientEndpoints(): Router {
 }
 export function SwaggerDocEndpoint(): Router {
     let swaggerDocRoutes: Router = Router();
+    let swaggerOptions = { };
     let swaggerfilePath = fs.readFileSync(path.join(__dirname, "..\\swagger\\swagger.yaml"), { encoding: 'utf8' });
     let swaggerYaml = yamlJs.load(swaggerfilePath);
-    swaggerDocRoutes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml));
+    swaggerDocRoutes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml, swaggerOptions));
     return swaggerDocRoutes;
 }

@@ -1,7 +1,8 @@
 import { Router } from 'express';
-import { GetManager } from '../store/managers/managers';
+import { Managers } from '../store/managers/managers';
 
-export class UserController {
+export class UserController extends Managers {
     constructor(routes: Router) {
+        super();
     }
 }

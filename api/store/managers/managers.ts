@@ -1,22 +1,22 @@
-import { ManagerTypes } from '../../util/managerTypeEnum';
-import { IUserStore } from '../userStore/IuserStore';
 import { IClientStore } from '../clientStore/IclientStore';
-import { ICommonStore } from '../commonStore/IcommonStore';
-import { IIndividualStore } from '../individualStore/IindividualStore';
 import { ClientStore } from '../clientStore/clientStore';
+import { ICommonStore } from '../commonStore/IcommonStore';
 import { CommonStore } from '../commonStore/commonStore';
+import { IIndividualStore } from '../individualStore/IindividualStore';
 import { IndividualStore } from '../individualStore/individualStore';
+import { IUserStore } from '../userStore/IuserStore';
 import { UserStore } from '../userStore/userStore';
-
-export function* GetManager() {
-    let clientManager: IClientStore = new ClientStore();
-    let userManager: IUserStore = new UserStore();
-    let individualManager: IIndividualStore = new IndividualStore();
-    let commonManager: ICommonStore = new CommonStore();
-    yield {
-        ClientManager: clientManager,
-        UserManager: userManager,
-        IndividualManager: individualManager,
-        CommonManager: commonManager
-    };
+export class Managers {
+    get ClientManager(): IClientStore {
+        return new ClientStore();
+    }
+    get UserManager(): IUserStore {
+        return new UserStore();
+    }
+    get IndividualManager(): IIndividualStore {
+        return new IndividualStore();
+    }
+    get CommonManager(): ICommonStore {
+        return new CommonStore();
+    }
 }

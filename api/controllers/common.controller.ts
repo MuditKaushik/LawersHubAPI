@@ -1,5 +1,27 @@
-import { Router } from 'express';
-
-export class CommonController {
-    constructor(router: Router) { }
+import { Router, Request, Response, NextFunction } from 'express';
+import { Managers } from '../store/managers/managers';
+import { IPayload } from '../models/specimen';
+import { CityFieldValidator } from '../middlewares/common.middleware';
+export class CommonController extends Managers {
+    constructor(router: Router) {
+        super();
+        router.get('/country', this.getCountryList.bind(this));
+        router.get('/states', this.getStateList.bind(this));
+        router.get('/city/:name', CityFieldValidator, this.getCityList.bind(this));
+    }
+    getCountryList(req: Request, res: Response, next: NextFunction) {
+        this.CommonManager.getCountries().subscribe((result) => {
+            return res.status(200).type('json').send(result);
+        });
+    }
+    getStateList(req: Request, res: Response, next: NextFunction) {
+        this.CommonManager.getStates().subscribe((result) => {
+            return res.status(200).type('json').send(result);
+        });
+    }
+    getCityList(req: Request, res: Response, next: NextFunction) {
+        this.CommonManager.getCities(req.param('name')).subscribe((result) => {
+            return res.status(200).type('json').send(result);
+        });
+    }
 }

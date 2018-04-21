@@ -38,6 +38,6 @@ export function AuthenticationMiddleware(req: Request, res: Response, next: Next
              */
         });
     } else {
-        res.status(404).type('json').send('Unauthorize access.')
+        return res.status(401).type('json').send('Unauthorize access.')
     }
 }

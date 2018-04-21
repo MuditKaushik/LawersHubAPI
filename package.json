@@ -8,7 +8,7 @@
     "start": "tsc && concurrently \"npm run build\" \"gulp\" \"node ./dist/server/run.js\" \"npm test\" \"tsc -w\"",
     "tslint": "./node_modules/.bin/tslint --init",
     "build": "concurrently \"tsc gulpfile.ts\" \"gulp build\"",
-    "swagger":"concurrently \"swagger project edit\" \"gulp watcher\""
+    "swagger": "concurrently \"swagger project edit\" \"gulp watcher\""
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,7 @@
     "mocha": "^5.0.4",
     "mssql": "^4.1.0",
     "run-sequence": "^2.2.1",
-    "swagger-ui-express": "^2.0.15"
+    "swagger-ui-express": "^3.0.8"
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.8",

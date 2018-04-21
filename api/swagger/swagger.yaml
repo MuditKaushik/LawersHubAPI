@@ -17,15 +17,43 @@ basePath: /api
 schemes:
     - http
 paths:
-  /individual/login:
+  /common/country:
     get:
-      summary: user login.
-      description: return token with user identity data.
+      summary: common data.
+      description: common data.
       tags:
-        - Individual
+        - Common API
       produces:
         - application/json
       responses:
         200:
           description: OK
+  /common/states:
+    get:
+      summary: country states
+      description: return country's states
+      tags:
+        - Common API
+      responses:
+        200:
+          description: OK
+  /common/city/{name}:
+    get:
+      summary: return cities for given states.
+      description: return cities for given states.
+      tags:
+        - Common API
+      parameters:
+        - in: path
+          name: name
+          type: string
+          required: true
+          description: State name must be in string format.
+      responses:
+        200:
+          description: OK
+        400:
+          description: Bad Request.
+    
+    
     
