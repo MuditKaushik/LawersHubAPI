@@ -2,8 +2,9 @@ import * as bodyParser from 'body-parser';
 import * as config from 'config';
 import * as express from 'express';
 import { AuthenticationMiddleware } from '../middlewares/authentication.middleware';
-import { ClientEndpoints, CommonEndpoints, IndividualEndpoints, SwaggerDocEndpoint, UserEndpoints } from './server-endpoints.config';
-import { EnableCORS } from './server-settings.config';
+import { ClientEndpoints, CommonEndpoints, IndividualEndpoints, UserEndpoints } from './server-endpoints.config';
+import { EnableCORS, SwaggerYaml } from './server-settings.config';
+const swaggerUi = require('swagger-ui-express');
 
 export class Server {
     app: express.Application = express();
@@ -21,7 +22,7 @@ export class Server {
         this.app.use(EnableCORS);
     }
     initAppEndpoints(): void {
-        this.app.use('', SwaggerDocEndpoint());
+        this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(SwaggerYaml()));
         this.app.use('/api/individual', IndividualEndpoints());
         this.app.use('/api/common', CommonEndpoints());
         this.app.use('/api/user', AuthenticationMiddleware, UserEndpoints());

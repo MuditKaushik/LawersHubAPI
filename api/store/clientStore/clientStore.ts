@@ -1,6 +1,6 @@
 import { IResult } from 'mssql';
-import { IClientStore } from './IclientStore';
 import { ClientDBStore } from './clientDbStore';
+import { IClientStore } from './IclientStore';
 
 export class ClientStore extends ClientDBStore implements IClientStore {
     constructor() {

@@ -16,6 +16,11 @@ host: localhost:1802
 basePath: /api
 schemes:
     - http
+securityDefinitions:
+  Authorization:
+    type: apiKey
+    in: header
+    name: bearer token
 paths:
   /common/country:
     get:
@@ -54,6 +59,34 @@ paths:
           description: OK
         400:
           description: Bad Request.
+  /individual/login:
+    post:
+      summary: returns token.
+      description: returns token with identity.
+      tags:
+        - Individual API
+      parameters:
+        - in: body
+          name: login
+          description: get user credentions.
+          schema:
+            $ref: '#/definitions/login'
+      responses:
+        200:
+          description: OK
+
+definitions:
+  login:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      
     
     
-    
+  

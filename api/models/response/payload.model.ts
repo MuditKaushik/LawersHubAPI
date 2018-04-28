@@ -6,9 +6,9 @@ export interface IPayload {
 
 export function SendPayload<T>(isSuccess: boolean, data: T, message?: string): IPayload {
     let payload: IPayload = {
-        success: isSuccess,
         result: data,
-        message: message
+        success: isSuccess,
+        message: message,
     };
     return payload;
 }

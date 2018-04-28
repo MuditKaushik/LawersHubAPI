@@ -1,4 +1,5 @@
 import { Observable } from '@reactivex/rxjs';
+import { ILoginModel, IPayload } from '../../models/specimen';
 export interface IUserStore {
-    getuser(): Observable<boolean>;
+    getUser(login: ILoginModel): Observable<IPayload>;
 }

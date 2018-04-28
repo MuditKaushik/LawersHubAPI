@@ -1,7 +1,7 @@
-import { IClientStore } from '../clientStore/IclientStore';
 import { ClientStore } from '../clientStore/clientStore';
-import { ICommonStore } from '../commonStore/IcommonStore';
+import { IClientStore } from '../clientStore/IclientStore';
 import { CommonStore } from '../commonStore/commonStore';
+import { ICommonStore } from '../commonStore/IcommonStore';
 import { IIndividualStore } from '../individualStore/IindividualStore';
 import { IndividualStore } from '../individualStore/individualStore';
 import { IUserStore } from '../userStore/IuserStore';

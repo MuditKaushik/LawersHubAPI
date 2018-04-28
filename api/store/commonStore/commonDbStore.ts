@@ -9,14 +9,14 @@ export class CommonDBStore {
         this._countryPath = path.join(process.cwd(), '/config/country.json');
         this._states = path.join(process.cwd(), '/config/states_cities.json');
     }
-    getDBCountries(): Observable<any> {
+    getCountries(): Observable<any> {
         return Observable.create((observer: Observer<any>) => {
             let readCountryJson = fs.readFileSync(this._countryPath, { encoding: 'utf8' });
             observer.next(readCountryJson);
             observer.complete();
         });
     }
-    getDBStates(): Observable<any> {
+    getStates(): Observable<any> {
         return Observable.create((observer: Observer<any>) => {
             let readStatesJson = fs.readFileSync(this._states, { encoding: 'utf8' });
             let parseJSON = JSON.parse(readStatesJson);

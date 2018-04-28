@@ -20,12 +20,9 @@
         "import-spacing": true,
         "indent": true,
         "interface-name": true,
-        "max-line-length": true,
+        "max-line-length": false,
         "member-access": false,
-        "member-ordering": {
-            "options": true,
-            "severity": "warning"
-        },
+        "member-ordering": true,
         "no-console": false,
         "no-empty": false,
         "no-empty-interface": false,

@@ -1,5 +1,6 @@
 import { ILoginModel } from './ILogin.model';
-export interface ISignupModel extends ILoginModel {
+export interface IUserModel extends ILoginModel {
+    userid: string;
     firstName: string;
     middleName: string;
     lastName: string;

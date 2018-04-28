@@ -1,15 +1,15 @@
-import { IResult } from 'mssql';
 import { Observable } from '@reactivex/rxjs';
-import { UserDBStore } from './userDbStore';
+import { IResult } from 'mssql';
+import { ILoginModel, IPayload, IUserModel, SendPayload } from '../../models/specimen';
 import { IUserStore } from './IuserStore';
-
-export class UserStore extends UserDBStore implements IUserStore {
-    constructor() {
-        super();
+import { UserDBStore } from './userDbStore';
+export class UserStore implements IUserStore {
+    private get dbStore(): UserDBStore {
+        return new UserDBStore();
     }
-    getuser(): Observable<boolean> {
-        return this.getDbUser().map((result: IResult<any>) => { 
-            return (result.rowsAffected.length > 0);
+    getUser(login: ILoginModel): Observable<IPayload> {
+        return this.dbStore.getDbUser(login.username, login.password).map((result: IResult<IUserModel>) => {
+            return SendPayload(true, result.recordset[0]);
         });
     }
 }

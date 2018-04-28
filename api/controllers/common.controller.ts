@@ -1,7 +1,7 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { Managers } from '../store/managers/managers';
-import { IPayload } from '../models/specimen';
+import { NextFunction, Request, Response, Router } from 'express';
 import { CityFieldValidator } from '../middlewares/common.middleware';
+import { IPayload } from '../models/specimen';
+import { Managers } from '../store/managers/managers';
 export class CommonController extends Managers {
     constructor(router: Router) {
         super();
