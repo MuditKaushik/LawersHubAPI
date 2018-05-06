@@ -33,6 +33,8 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            $ref: "#/definitions/response"
   /common/states:
     get:
       summary: country states
@@ -42,6 +44,8 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            $ref: "#/definitions/response"
   /common/city/{name}:
     get:
       summary: return cities for given states.
@@ -57,6 +61,8 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            $ref: "#/definitions/response"
         400:
           description: Bad Request.
   /individual/login:
@@ -74,8 +80,19 @@ paths:
       responses:
         200:
           description: OK
+          schema:
+            $ref: "#/definitions/response"
 
 definitions:
+  response:
+    type: object
+    properties:
+      success:
+        type: boolean
+      result:
+        type: object
+      error:
+        type: string
   login:
     type: object
     required:
