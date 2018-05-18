@@ -19,7 +19,10 @@
         "forin": true,
         "import-spacing": true,
         "indent": true,
-        "interface-name": true,
+        "interface-name": {
+            "options":"never-prefix",
+            "severity": "off"
+        },
         "max-line-length": false,
         "member-access": false,
         "member-ordering": {

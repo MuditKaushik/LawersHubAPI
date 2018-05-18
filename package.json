@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha ./dist/specs/**/*.specs.js",
-    "start": "tsc && concurrently \"gulp\" \"node ./dist/server/run.js\" \"tsc -w\"",
+    "start": "tsc && concurrently \"gulp\" \"node ./dist/server/server.js\" \"tsc -w\"",
     "tslint": "./node_modules/.bin/tslint --init",
     "build": "concurrently \"tsc gulpfile.ts\" \"gulp build\"",
     "swagger": "concurrently \"swagger project edit\" \"gulp watcher\""

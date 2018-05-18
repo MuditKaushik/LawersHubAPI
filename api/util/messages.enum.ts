@@ -9,6 +9,7 @@ export enum FailureMessages {
     EMAIL_SENT = 'Mail has been sent to your registered email address.',
     TOKEN_REQUIRED = 'Token is not provided or Unable to read.',
     TOKEN_EXPIRE = 'Token expires.',
+    TOKEN_NOT_CREATED = 'Token not able to created.',
 }
 
 export enum SuccessMessage {
