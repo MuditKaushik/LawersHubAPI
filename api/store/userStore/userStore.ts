@@ -1,8 +1,8 @@
 import { Observable } from '@reactivex/rxjs';
-import { IResult } from 'mssql';
+import { IProcedureResult, IResult } from 'mssql';
 import { ILoginModel, IPayload, IUserModel, SendPayload } from '../../models/specimen';
-import { FailureMessages } from '../../util/messages.enum';
-import { IUserStore } from './IuserStore';
+import { FailureMessages, SuccessMessage } from '../../util/messages.enum';
+import { IUserStore } from '../storeInterface';
 import { UserDBStore } from './userDbStore';
 export class UserStore implements IUserStore {
     private get dbStore(): UserDBStore {
@@ -14,6 +14,11 @@ export class UserStore implements IUserStore {
                 return SendPayload(true, result.recordset[0]);
             }
             return SendPayload(false, [], FailureMessages.USER_NOT_EXISTS);
+        });
+    }
+    addUsers(user: IUserModel): Observable<IPayload> {
+        return this.dbStore.addDbUser(user).map((result: IProcedureResult<any>) => {
+            return SendPayload(result.output.iscreated, [], (result.output.iscreated) ? SuccessMessage.USER_CREATED : FailureMessages.USER_NOT_CREATED);
         });
     }
 }

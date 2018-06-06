@@ -1,11 +1,11 @@
-import { ClientStore } from '../clientStore/clientStore';
-import { IClientStore } from '../clientStore/IclientStore';
-import { CommonStore } from '../commonStore/commonStore';
-import { ICommonStore } from '../commonStore/IcommonStore';
-import { IIndividualStore } from '../individualStore/IindividualStore';
-import { IndividualStore } from '../individualStore/individualStore';
-import { IUserStore } from '../userStore/IuserStore';
-import { UserStore } from '../userStore/userStore';
+import { Container } from 'inversify';
+import { ClientStore } from '../clientStore';
+import { CommonStore } from '../commonStore';
+import { IndividualStore } from '../individualStore';
+import { UserStore } from '../userStore';
+import { IClientStore, ICommonStore, IIndividualStore, IUserStore } from '../storeInterface'
+import { TypeObject } from '../../util/store_Types';
+
 export class Managers {
     get ClientManager(): IClientStore {
         return new ClientStore();
@@ -20,3 +20,12 @@ export class Managers {
         return new CommonStore();
     }
 }
+
+const IoC_Container = new Container();
+
+IoC_Container.bind<IClientStore>(TypeObject.clientStore).to(ClientStore);
+IoC_Container.bind<ICommonStore>(TypeObject.commonStore).to(CommonStore);
+IoC_Container.bind<IIndividualStore>(TypeObject.individualStore).to(IndividualStore);
+IoC_Container.bind<IUserStore>(TypeObject.userStore).to(UserStore);
+
+export { IoC_Container };

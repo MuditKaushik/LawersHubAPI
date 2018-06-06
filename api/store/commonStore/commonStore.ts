@@ -1,7 +1,7 @@
 import { Observable } from '@reactivex/rxjs';
 import { ICityModel, ICountryModel, IPayload, IStateModel, SendPayload } from '../../models/specimen';
 import { CommonDBStore } from './commonDbStore';
-import { ICommonStore } from './IcommonStore';
+import { ICommonStore } from '../storeInterface';
 
 export class CommonStore implements ICommonStore {
     private _dbStore: CommonDBStore;

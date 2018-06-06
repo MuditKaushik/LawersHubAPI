@@ -21,6 +21,15 @@ securityDefinitions:
     type: apiKey
     in: header
     name: bearer token
+
+parameters:
+  userid:
+    in: query
+    name: userid
+    required: true
+    type: string
+    description: logged in userid.
+
 paths:
   /common/country:
     get:
@@ -65,6 +74,7 @@ paths:
             $ref: "#/definitions/response"
         400:
           description: Bad Request.
+          
   /individual/login:
     post:
       summary: returns token.
@@ -77,6 +87,37 @@ paths:
           description: get user credentions.
           schema:
             $ref: '#/definitions/login'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/response"
+  /individual/adduser:
+    post:
+      summary: register user.
+      description: register individual to application.
+      tags:
+        - Individual API
+      parameters:
+        - in: body
+          name: user
+          description: get individual information to create account.
+          schema:
+            $ref: "#/definitions/register"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/response"
+  
+  /client/add/{userid}:
+    post:
+      summary: add client.
+      description: add client to the registered user directory.
+      tags:
+        - Client API
+      parameters:
+        - $ref: "#/parameters/userid"
       responses:
         200:
           description: OK
@@ -103,7 +144,78 @@ definitions:
         type: string
       password:
         type: string
-      
-    
-    
-  
+  register:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+      - phone
+      - username
+      - password
+    properties:
+      firstName:
+        type: string
+      middlename:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+  client:
+    type: object
+    required:
+      - userid
+      - firstName
+      - lastName
+      - address1
+      - country
+      - state
+      - district
+      - city
+      - pincode
+      - email
+      - phone
+      - purpose
+      - isprivate
+    properties:
+      userid:
+        type: string
+      firstName:
+        type: string
+      middleName:
+        type: string
+      lastName:
+        type: string
+      address1:
+        type: string
+      address2:
+        type: string
+      country:
+        type: string
+      state:
+        type: string
+      district:
+        type: string
+      city:
+        type: string
+      pincode:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      purpose:
+        type: number
+      occupation:
+        type: string
+      about:
+        type: string
+      isprivate:
+        type: boolean

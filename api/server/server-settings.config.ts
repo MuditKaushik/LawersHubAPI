@@ -10,6 +10,6 @@ export function EnableCORS(req: Request, res: Response, next: NextFunction): voi
     next();
 }
 export function SwaggerYaml(): any {
-    let swaggerfilePath = fs.readFileSync(path.join(__dirname, '..\\swagger\\swagger.yaml'), { encoding: 'utf8' });
+    let swaggerfilePath = fs.readFileSync(path.join(__dirname, '../swagger/swagger.yaml'), { encoding: 'utf8' });
     return yamlJs.load(swaggerfilePath);
 }

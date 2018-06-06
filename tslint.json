@@ -44,7 +44,7 @@
         "variable-name": {
             "options": [
                 "allow-leading-underscore",
-                "allow-pascal-case"
+                "allow-pascal-case",
             ],
             "severity": "default"
         },

@@ -3,7 +3,7 @@ import { IResult } from 'mssql';
 import { IClientModel, IPayload, SendPayload } from '../../models/specimen';
 import { FailureMessages } from '../../util/messages.enum';
 import { ClientDBStore } from './clientDbStore';
-import { IClientStore } from './IclientStore';
+import { IClientStore } from '../storeInterface';
 
 export class ClientStore implements IClientStore {
     private get dbStore() {
