@@ -4,11 +4,13 @@ import * as express from 'express';
 import { AuthenticationMiddleware } from '../middlewares/authentication.middleware';
 import { ClientEndpoints, CommonEndpoints, IndividualEndpoints, UserEndpoints } from './server-endpoints.config';
 import { EnableCORS, SwaggerYaml } from './server-settings.config';
+import { IoC_Container } from '../store/IoC_Containers/contailers';
 const swaggerUi = require('swagger-ui-express');
 
-export class Server {
+export class Server extends IoC_Container {
     app: express.Application = express();
     constructor() {
+        super();
         this.initAppSetting();
         this.initAppEndpoints();
         this.initServer();

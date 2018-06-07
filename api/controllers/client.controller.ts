@@ -1,18 +1,18 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import * as httpStatus from 'http-status-codes';
-import { isBoolean } from 'util';
 import { ClientValidation } from '../middlewares/client.middleware';
 import { IClientModel } from '../models/specimen';
-import { Managers } from '../store/managers/managers';
+import { IoC } from '../store/IoC_Containers';
+import { TypeObject } from '../util/store_Types';
 import { FailureMessages } from '../util/messages.enum';
-export class ClientController extends Managers {
+import { IClientStore } from '../store/storeInterface';
+export class ClientController {
     constructor(routes: Router) {
-        super();
         routes.post('/add/:userid', this.addClient.bind(this));
         routes.get('/clients/:type/:userid', ClientValidation, this.getClients.bind(this));
     }
     getClients(req: Request, res: Response, next: NextFunction) {
-        this.ClientManager.getclients(req.param('userid'), req.params.type)
+        IoC.get<IClientStore>(TypeObject.clientStore).getclients(req.param('userid'), req.params.type)
             .subscribe((result) => {
                 return res.status(httpStatus.OK).type('json').send(result);
             }, (err) => {
@@ -20,7 +20,7 @@ export class ClientController extends Managers {
             });
     }
     addClient(req: Request, res: Response, next: NextFunction) {
-        this.ClientManager.addclient(req.body as IClientModel).subscribe((result) => {
+        IoC.get<IClientStore>(TypeObject.clientStore).addclient(req.body as IClientModel).subscribe((result) => {
             return res.status(httpStatus.CREATED).type('json').send(result);
         }, (err) => {
             return res.status(httpStatus.NOT_FOUND).send(FailureMessages.CLIENT_NOT_ADDED);

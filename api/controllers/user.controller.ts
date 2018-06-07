@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { Managers } from '../store/managers/managers';
-export class UserController extends Managers {
+import { IoC } from '../store/IoC_Containers';
+export class UserController {
     constructor(routes: Router) {
-        super();
     }
 }

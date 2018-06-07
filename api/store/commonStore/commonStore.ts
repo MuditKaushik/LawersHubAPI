@@ -1,8 +1,11 @@
 import { Observable } from '@reactivex/rxjs';
+import { injectable } from 'inversify';
+import 'reflect-metadata';
 import { ICityModel, ICountryModel, IPayload, IStateModel, SendPayload } from '../../models/specimen';
 import { CommonDBStore } from './commonDbStore';
 import { ICommonStore } from '../storeInterface';
 
+@injectable()
 export class CommonStore implements ICommonStore {
     private _dbStore: CommonDBStore;
     constructor() {

@@ -2,22 +2,20 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { GenerateUserToken } from '../middlewares/authentication.middleware';
 import { loginFieldValidation } from '../middlewares/user.middleware';
-import { IUserModel, SendPayload } from '../models/specimen';
-import { IIndividualStore } from '../store/storeInterface'
-import { TypeObject } from '../util/store_Types';
-import { Managers, IoC_Container } from '../store/managers/managers';
+import { SendPayload } from '../models/specimen';
+import { IoC } from '../store/IoC_Containers/contailers';
+import { IUserStore } from '../store/storeInterface';
 import { FailureMessages } from '../util/messages.enum';
+import { TypeObject } from '../util/store_Types';
 
-export class IndividualController extends Managers {
+export class IndividualController {
     constructor(router: Router) {
-        super();
         router.post('/login', loginFieldValidation, this.login.bind(this));
         router.get('/forgotpassword', this.forgotPassword.bind(this));
         router.post('/adduser', this.addUser.bind(this));
     }
     login(req: Request, res: Response, next: NextFunction) {
-        let userManager = IoC_Container.get<IIndividualStore>(TypeObject.individualStore);
-        this.UserManager.getUser(req.body).subscribe((user) => {
+        IoC.get<IUserStore>(TypeObject.userStore).getUser(req.body).subscribe((user) => {
             if (user.success) {
                 GenerateUserToken(user.result).subscribe((identity) => {
                     return res.status(httpStatus.OK).type('json').send(SendPayload(true, identity));
@@ -32,7 +30,7 @@ export class IndividualController extends Managers {
         });
     }
     addUser(req: Request, res: Response, next: NextFunction) {
-        this.UserManager.addUsers(req.body).subscribe((result) => {
+        IoC.get<IUserStore>(TypeObject.userStore).addUsers(req.body).subscribe((result) => {
             return res.status(httpStatus.OK).type('json').send(result);
         }, (err) => {
             return res.status(httpStatus.NOT_MODIFIED).type('json').send();

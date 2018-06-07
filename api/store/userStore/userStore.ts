@@ -1,9 +1,12 @@
 import { Observable } from '@reactivex/rxjs';
+import { injectable } from 'inversify';
+import 'reflect-metadata';
 import { IProcedureResult, IResult } from 'mssql';
 import { ILoginModel, IPayload, IUserModel, SendPayload } from '../../models/specimen';
 import { FailureMessages, SuccessMessage } from '../../util/messages.enum';
 import { IUserStore } from '../storeInterface';
 import { UserDBStore } from './userDbStore';
+@injectable()
 export class UserStore implements IUserStore {
     private get dbStore(): UserDBStore {
         return new UserDBStore();
