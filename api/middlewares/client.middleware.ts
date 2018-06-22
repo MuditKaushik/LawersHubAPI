@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status-codes';
-import { IIdentityModel } from '../models/specimen';
 import { getIdentity } from '../util/identity';
 import { FailureMessages } from '../util/messages.enum';
 

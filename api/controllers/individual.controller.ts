@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { GenerateUserToken } from '../middlewares/authentication.middleware';
 import { loginFieldValidation } from '../middlewares/user.middleware';
-import { SendPayload } from '../models/specimen';
+import { SendPayload } from '../models';
 import { IoC } from '../store/IoC_Containers/contailers';
 import { IUserStore } from '../store/storeInterface';
 import { FailureMessages } from '../util/messages.enum';
@@ -23,7 +23,7 @@ export class IndividualController {
                     return res.status(httpStatus.BAD_REQUEST).type('json').send(FailureMessages.TOKEN_NOT_CREATED);
                 });
             } else {
-                return res.status(httpStatus.NOT_FOUND).type('json').send(FailureMessages.NO_RESULT_FOUND);
+                return res.status(httpStatus.NOT_FOUND).send(FailureMessages.NO_RESULT_FOUND);
             }
         }, (err) => {
             return res.status(httpStatus.FORBIDDEN).type('json').send('');

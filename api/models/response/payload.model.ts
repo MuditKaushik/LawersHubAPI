@@ -1,11 +1,11 @@
-export interface IPayload {
+export interface IPayload<T> {
     success: boolean;
-    result: any;
+    result: T;
     message?: string;
 }
 
-export function SendPayload<T>(isSuccess: boolean, data: T, message?: string): IPayload {
-    let payload: IPayload = {
+export function SendPayload<T>(isSuccess: boolean, data: T | any, message?: string): IPayload<T> {
+    let payload = {
         result: data,
         success: isSuccess,
         message: message,

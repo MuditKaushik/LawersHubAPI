@@ -1,7 +1,6 @@
 import { Observable, Observer } from '@reactivex/rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ICityModel, ICountryModel, IStateModel } from '../../models/specimen';
 export class CommonDBStore {
     private _countryPath: string;
     private _states: string;

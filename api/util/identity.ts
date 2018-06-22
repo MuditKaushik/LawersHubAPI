@@ -1,5 +1,4 @@
-import { Observable } from '@reactivex/rxjs';
-import { IIdentityModel } from '../models/specimen';
+import { IIdentityModel } from '../models';
 let userIdentity: IIdentityModel;
 export function setIdentity(identity: IIdentityModel) {
     userIdentity = identity;

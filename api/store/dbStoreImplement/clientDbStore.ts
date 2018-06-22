@@ -1,17 +1,17 @@
 import { Observable, Observer } from '@reactivex/rxjs';
-import { ConnectionPool, IProcedureResult, IResult, TYPES } from 'mssql';
-import { IClientModel } from '../../models/specimen';
-import { ConnectDatabase } from '../dbStore/dbConnect';
+import { inject, injectable } from 'inversify';
+import { IProcedureResult, IResult, TYPES } from 'mssql';
+import 'reflect-metadata';
+import { IClientModel } from '../../models';
+import { TypeObject } from '../../util/store_Types';
+import { IDBConnect } from '../storeInterface';
 
+@injectable()
 export class ClientDBStore {
-    private get _db(): ConnectDatabase {
-        return new ConnectDatabase();
-    }
-    constructor() {
-    }
+    @inject(TypeObject.dbConnect) db: IDBConnect;
     addClient(client: IClientModel): Observable<IResult<any>> {
         return Observable.create((observer: Observer<IResult<any>>) => {
-            this._db.Connect().subscribe((connection: ConnectionPool) => {
+            this.db.Connect().subscribe((connection) => {
                 connection.request()
                     .input('userid', TYPES.NVarChar, client.userid)
                     .input('firstName', TYPES.NVarChar, client.firstName)
@@ -41,7 +41,7 @@ export class ClientDBStore {
     }
     getClients(userId: string, type: boolean): Observable<IResult<any>> {
         return Observable.create((observer: Observer<IResult<any>>) => {
-            this._db.Connect().subscribe((connection: ConnectionPool) => {
+            this.db.Connect().subscribe((connection) => {
                 connection.request()
                     .input('userid', TYPES.NVarChar, userId)
                     .input('clientType', TYPES.Bit, type)

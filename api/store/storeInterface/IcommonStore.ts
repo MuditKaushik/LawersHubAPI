@@ -1,7 +1,7 @@
 import { Observable } from '@reactivex/rxjs';
-import { IPayload } from '../../models/specimen';
+import { ICityModel, ICountryModel, IPayload, IStateModel } from '../../models';
 export interface ICommonStore {
-    getCountries(): Observable<IPayload>;
-    getStates(): Observable<IPayload>;
-    getCities(city: string): Observable<IPayload>;
+    getCountries(): Observable<IPayload<Array<ICountryModel>>>;
+    getStates(): Observable<IPayload<Array<IStateModel>>>;
+    getCities(city: string): Observable<IPayload<Array<ICityModel>>>;
 }

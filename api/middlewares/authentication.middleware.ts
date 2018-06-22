@@ -3,7 +3,7 @@ import * as config from 'config';
 import { NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { sign, SignOptions, TokenExpiredError, verify, VerifyOptions } from 'jsonwebtoken';
-import { IIdentityModel, IUserModel } from '../models/specimen';
+import { IIdentityModel, IUserModel } from '../models';
 import { setIdentity } from '../util/identity';
 import { FailureMessages } from '../util/messages.enum';
 

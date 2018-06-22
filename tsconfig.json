@@ -50,9 +50,10 @@
       "http-status-codes",
       "mocha",
       "node",
-      "run-sequence",
       "inversify",
-      "reflect-metadata"
+      "reflect-metadata",
+      "pdfkit",
+      "run-sequence"
     ], /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
