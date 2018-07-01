@@ -1,4 +1,5 @@
 import { AsyncContainerModule, Container, ContainerModule, interfaces } from 'inversify';
+import { LogIdentity } from '../../middlewares/identity.middleware';
 import { TypeObject } from '../../util/store_Types';
 import { ClientDBStore, CommonDBStore, IndividualDBStore, UserDBStore } from '../dbStoreImplement';
 import { ClientStore, CommonStore, ConnectDatabase, IndividualStore, UserStore } from '../storeImplement';
@@ -30,6 +31,7 @@ class IoC_Container {
             bind(TypeObject.commonDBStore).to(CommonDBStore);
             bind(TypeObject.individualDBStore).to(IndividualDBStore);
             bind(TypeObject.userDBStore).to(UserDBStore);
+            bind(TypeObject.userIdentity).to(LogIdentity);
             bind<IClientStore>(TypeObject.clientStore).to(ClientStore);
             bind<ICommonStore>(TypeObject.commonStore).to(CommonStore);
             bind<IIndividualStore>(TypeObject.individualStore).to(IndividualStore);
@@ -49,6 +51,7 @@ class IoC_Container {
             await bind(TypeObject.commonDBStore).to(CommonDBStore);
             await bind(TypeObject.individualDBStore).to(IndividualDBStore);
             await bind(TypeObject.userDBStore).to(UserDBStore);
+            await bind(TypeObject.userIdentity).to(LogIdentity);
             await bind<IClientStore>(TypeObject.clientStore).to(ClientStore);
             await bind<ICommonStore>(TypeObject.commonStore).to(CommonStore);
             await bind<IIndividualStore>(TypeObject.individualStore).to(IndividualStore);
@@ -62,6 +65,7 @@ class IoC_Container {
         IoC.bind(TypeObject.commonDBStore).to(CommonDBStore);
         IoC.bind(TypeObject.individualDBStore).to(IndividualDBStore);
         IoC.bind(TypeObject.userDBStore).to(UserDBStore);
+        IoC.bind(TypeObject.userIdentity).to(LogIdentity);
         IoC.bind<IClientStore>(TypeObject.clientStore).to(ClientStore);
         IoC.bind<ICommonStore>(TypeObject.commonStore).to(CommonStore);
         IoC.bind<IIndividualStore>(TypeObject.individualStore).to(IndividualStore);

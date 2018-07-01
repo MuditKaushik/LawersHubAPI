@@ -1,17 +1,16 @@
 import { Observable } from '@reactivex/rxjs';
-import { injectable } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { IResult } from 'mssql';
 import 'reflect-metadata';
 import { IClientModel, IPayload, SendPayload } from '../../models';
 import { FailureMessages } from '../../util/messages.enum';
+import { TypeObject } from '../../util/store_Types';
 import { ClientDBStore } from '../dbStoreImplement/clientDbStore';
 import { IClientStore } from '../storeInterface';
 
 @injectable()
 export class ClientStore implements IClientStore {
-    private get dbStore() {
-        return new ClientDBStore();
-    }
+    @inject(TypeObject.clientDBStore) dbStore: ClientDBStore;
     addclient(client: IClientModel): Observable<IPayload<IClientModel>> {
         return this.dbStore.addClient(client).map((clients: IResult<IClientModel>) => {
             if (clients.recordset.length > 0) {

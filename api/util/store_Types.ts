@@ -7,5 +7,6 @@ export const TypeObject = {
     individualDBStore: Symbol.for('individualDBStore'),
     individualStore: Symbol.for('individualStore'),
     userDBStore: Symbol.for('userDBStore'),
+    userIdentity: Symbol.for('identity'),
     userStore: Symbol.for('userStore'),
 };

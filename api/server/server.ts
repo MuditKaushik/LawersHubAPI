@@ -2,7 +2,7 @@ import * as bodyParser from 'body-parser';
 import * as config from 'config';
 import * as express from 'express';
 import { AuthenticationMiddleware } from '../middlewares/authentication.middleware';
-import { IoC_Container } from '../store/IoC_Containers/contailers';
+import { IoC_Container } from '../store/IoC_Containers';
 import { ClientEndpoints, CommonEndpoints, IndividualEndpoints, UserEndpoints } from './server-endpoints.config';
 import { EnableCORS, SwaggerYaml } from './server-settings.config';
 const swaggerUi = require('swagger-ui-express');

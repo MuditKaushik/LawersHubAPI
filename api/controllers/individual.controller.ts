@@ -3,7 +3,7 @@ import * as httpStatus from 'http-status-codes';
 import { GenerateUserToken } from '../middlewares/authentication.middleware';
 import { loginFieldValidation } from '../middlewares/user.middleware';
 import { SendPayload } from '../models';
-import { IoC } from '../store/IoC_Containers/contailers';
+import { IoC } from '../store/IoC_Containers/container';
 import { IUserStore } from '../store/storeInterface';
 import { FailureMessages } from '../util/messages.enum';
 import { TypeObject } from '../util/store_Types';
@@ -12,7 +12,6 @@ export class IndividualController {
     constructor(router: Router) {
         router.post('/login', loginFieldValidation, this.login.bind(this));
         router.get('/forgotpassword', this.forgotPassword.bind(this));
-        router.post('/adduser', this.addUser.bind(this));
     }
     login(req: Request, res: Response, next: NextFunction) {
         IoC.get<IUserStore>(TypeObject.userStore).getUser(req.body).subscribe((user) => {
@@ -27,13 +26,6 @@ export class IndividualController {
             }
         }, (err) => {
             return res.status(httpStatus.FORBIDDEN).type('json').send('');
-        });
-    }
-    addUser(req: Request, res: Response, next: NextFunction) {
-        IoC.get<IUserStore>(TypeObject.userStore).addUsers(req.body).subscribe((result) => {
-            return res.status(httpStatus.OK).type('json').send(result);
-        }, (err) => {
-            return res.status(httpStatus.NOT_MODIFIED).type('json').send();
         });
     }
     forgotPassword(req: Request, res: Response, next: NextFunction) {

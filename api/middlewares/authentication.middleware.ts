@@ -3,15 +3,17 @@ import * as config from 'config';
 import { NextFunction, Request, Response } from 'express';
 import * as httpStatus from 'http-status-codes';
 import { sign, SignOptions, TokenExpiredError, verify, VerifyOptions } from 'jsonwebtoken';
+import 'reflect-metadata';
 import { IIdentityModel, IUserModel } from '../models';
-import { setIdentity } from '../util/identity';
 import { FailureMessages } from '../util/messages.enum';
+import { LogIdentity } from './identity.middleware';
 
 function IsBearerTokenNotNull(token: string): boolean {
     return (token != null && token !== 'undefined') ?
         (token.split(' ')[1] != null) ? true : false
         : false;
 }
+
 export function decodeToken(token: string): Observable<IIdentityModel> {
     let secretKeys: any = config.get<any>('jwt');
     let verifyOptions: VerifyOptions = {};
@@ -19,7 +21,7 @@ export function decodeToken(token: string): Observable<IIdentityModel> {
         verify(token, secretKeys.secretKey, (err: any, decode: object) => {
             if (!err) {
                 let identity: IIdentityModel = decode as IIdentityModel;
-                setIdentity(identity);
+                new LogIdentity().getUserIdentity(identity.userid);
                 observer.next(identity);
             } else {
                 observer.error(err);

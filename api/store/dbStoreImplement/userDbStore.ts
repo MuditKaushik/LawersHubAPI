@@ -1,6 +1,6 @@
 import { Observable, Observer } from '@reactivex/rxjs';
 import { inject, injectable } from 'inversify';
-import { IProcedureResult, IResult, Request, TYPES } from 'mssql';
+import { ConnectionPool, IProcedureResult, IResult, Request, TYPES } from 'mssql';
 import 'reflect-metadata';
 import { IUserModel } from '../../models';
 import { TypeObject } from '../../util/store_Types';
@@ -8,7 +8,7 @@ import { IDBConnect } from '../storeInterface';
 
 @injectable()
 export class UserDBStore {
-    @inject(TypeObject.dbConnect) dbConnect: IDBConnect;
+    @inject(TypeObject.dbConnect) private dbConnect: IDBConnect;
     getDbUser(username: string, password: string): Observable<IResult<any>> {
         return Observable.create((observer: Observer<IResult<any>>) => {
             this.dbConnect.Connect().subscribe((connection) => {
@@ -24,6 +24,22 @@ export class UserDBStore {
                         connection.close();
                         observer.complete();
                     });
+            });
+        });
+    }
+    getDbUserByUserId(userId: string): Observable<IResult<any>> {
+        return Observable.create((observer: Observer<IResult<any>>) => {
+            this.dbConnect.Connect().subscribe((connection: ConnectionPool) => {
+                let getUserQuery: string = `SELECT * FROM auth_user    WHERE userid = ${userId}`;
+                connection.request().query(getUserQuery, (err, result: IResult<any>) => {
+                    if (!err) {
+                        observer.next(result);
+                    } else {
+                        observer.error(err);
+                    }
+                    connection.close();
+                    observer.complete();
+                });
             });
         });
     }
